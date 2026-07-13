@@ -12,91 +12,95 @@
     "imobile_hero": {
       "type": "imobile-hero",
       "settings": {
-        "eyebrow": "iMobile Accessories",
-        "heading": "Premium Mobiles &",
-        "heading_accent": "Accessories",
+        "show_rating": true,
+        "rating_text": "Trusted by customers across Karachi",
+        "heading": "Smart Mobiles & Accessories for",
+        "rotating_words": "Work, Travel, Gaming, Life",
         "text": "We deal in all mobile phones and accessories — genuine products, best prices, and fast delivery across Karachi.",
-        "btn1_label": "Shop Now",
+        "btn1_label": "Shop All",
         "btn1_link": "shopify://collections/all",
-        "btn2_label": "Explore Collection",
+        "btn2_label": "See More",
         "btn2_link": "shopify://collections",
         "show_whatsapp": true,
         "show_stats": true
       }
     },
-    "imobile_promo": {
-      "type": "imobile-promo",
-      "settings": {
-        "badge": "Limited Time",
-        "heading": "Best Deals on Genuine Mobiles & Accessories",
-        "text": "Grab original earbuds, chargers, covers and more at unbeatable prices — while stock lasts.",
-        "btn_label": "Shop Deals",
-        "btn_link": "shopify://collections/all"
-      }
-    },
     "imobile_categories": {
       "type": "imobile-categories",
-      "settings": {}
+      "settings": { "eyebrow": "Collections", "heading": "Shop by Category" }
     },
-    "imobile_latest": {
+    "imobile_bestsellers": {
       "type": "imobile-products",
-      "settings": {
-        "eyebrow": "Just In",
-        "heading": "Latest Arrivals",
-        "max": 8,
-        "columns": 4,
-        "show_view_all": true,
-        "background": "#ffffff"
-      }
+      "settings": { "eyebrow": "Bestsellers", "heading": "Trending Now", "max": 8, "columns": 4, "show_view_all": true, "background": "#ffffff" }
     },
-    "imobile_collections": {
-      "type": "imobile-collections",
-      "settings": {}
+    "imobile_feature_grid": {
+      "type": "imobile-feature-grid",
+      "settings": { "eyebrow": "Why iMobile", "heading": "Accessories for Every Need", "columns": 4 },
+      "blocks": {
+        "c1": { "type": "card", "settings": { "title": "Durable Phone Covers", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "c2": { "type": "card", "settings": { "title": "Fast Chargers & Cables", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "c3": { "type": "card", "settings": { "title": "Wireless Earbuds & Audio", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "c4": { "type": "card", "settings": { "title": "Smart Watches & Straps", "link_label": "Shop Now", "link": "shopify://collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"]
     },
-    "imobile_marquee": {
-      "type": "imobile-marquee",
-      "settings": {}
+    "imobile_countdown": {
+      "type": "imobile-countdown",
+      "settings": { "eyebrow": "Big Sale Alert", "heading": "Your Last Chance to Get Up to 50% Off!", "fallback_days": 3, "btn_label": "Shop All", "btn_link": "shopify://collections/all" }
     },
-    "imobile_featured": {
-      "type": "imobile-products",
-      "settings": {
-        "eyebrow": "Handpicked",
-        "heading": "Featured Products",
-        "max": 8,
-        "columns": 4,
-        "show_view_all": true,
-        "background": "#f5f7fb"
-      }
+    "imobile_about": {
+      "type": "imobile-about",
+      "settings": { "eyebrow": "About Us", "heading": "A Store Committed to Genuine Products", "text": "iMobile Accessories deals in all mobile phones and accessories. We focus on genuine products, honest prices and friendly service — so you can shop with complete confidence.", "btn_label": "Contact Us", "btn_link": "shopify://pages/contact", "background": "#ffffff" }
     },
-    "imobile_trust": {
-      "type": "imobile-trust",
-      "settings": {}
-    },
+    "imobile_partners": { "type": "imobile-partners", "settings": {} },
     "imobile_testimonials": {
       "type": "imobile-testimonials",
       "blocks": {
         "r1": { "type": "review", "settings": { "quote": "Original product mila, price bhi best tha aur delivery bohat fast thi. Highly recommended!", "name": "Ahmed Khan", "role": "Verified Customer" } },
         "r2": { "type": "review", "settings": { "quote": "Great collection of accessories and very honest dealing. WhatsApp par turant reply mila.", "name": "Sana Malik", "role": "Verified Customer" } },
-        "r3": { "type": "review", "settings": { "quote": "Genuine mobile phone at a fair price. Shop staff bohat cooperative the. Will buy again.", "name": "Bilal Raza", "role": "Verified Customer" } }
+        "r3": { "type": "review", "settings": { "quote": "Genuine mobile phone at a fair price. Shop staff bohat cooperative the. Will buy again.", "name": "Bilal Raza", "role": "Verified Customer" } },
+        "r4": { "type": "review", "settings": { "quote": "Bohat achi service. Earbuds original nikle aur delivery same day ho gayi.", "name": "Hina Shaikh", "role": "Verified Customer" } },
+        "r5": { "type": "review", "settings": { "quote": "Best prices in Karachi for accessories. Charger aur cover dono perfect the.", "name": "Usman Tariq", "role": "Verified Customer" } },
+        "r6": { "type": "review", "settings": { "quote": "Trusted shop. Smart watch genuine mila with warranty. Highly satisfied!", "name": "Ayesha Noor", "role": "Verified Customer" } }
       },
-      "block_order": ["r1", "r2", "r3"],
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
       "settings": {}
     },
-    "imobile_cta": {
-      "type": "imobile-cta",
-      "settings": {}
-    }
+    "imobile_features": {
+      "type": "imobile-features",
+      "settings": { "eyebrow": "Features", "heading": "Genuine Accessories Built to Last" },
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "icon": "original", "title": "100% Original", "text": "Genuine, branded mobiles and accessories only." } },
+        "f2": { "type": "feature", "settings": { "icon": "quality", "title": "Superior Quality", "text": "Every product passes a careful quality check." } },
+        "f3": { "type": "feature", "settings": { "icon": "delivery", "title": "Fast Delivery", "text": "Quick delivery across Karachi and all Pakistan." } },
+        "f4": { "type": "feature", "settings": { "icon": "support", "title": "Friendly Support", "text": "Reach us on WhatsApp any time — we reply fast." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"]
+    },
+    "imobile_faq": {
+      "type": "imobile-faq",
+      "settings": {},
+      "blocks": {
+        "q1": { "type": "qa", "settings": { "question": "Do you sell original products?", "answer": "Yes — we deal only in 100% genuine, branded mobile phones and accessories." } },
+        "q2": { "type": "qa", "settings": { "question": "Do you offer delivery across Pakistan?", "answer": "Yes, we deliver across Karachi and all of Pakistan. Message us on WhatsApp for delivery details." } },
+        "q3": { "type": "qa", "settings": { "question": "How can I place an order?", "answer": "Order online through the website, or contact us on WhatsApp at 0315-2972723 / 0348-2532992." } },
+        "q4": { "type": "qa", "settings": { "question": "Do accessories come with warranty?", "answer": "Branded products carry manufacturer warranty where applicable. Ask us about a specific product." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"]
+    },
+    "imobile_cta": { "type": "imobile-cta", "settings": {} }
   },
   "order": [
     "imobile_hero",
-    "imobile_promo",
     "imobile_categories",
-    "imobile_latest",
-    "imobile_collections",
-    "imobile_marquee",
-    "imobile_featured",
-    "imobile_trust",
+    "imobile_bestsellers",
+    "imobile_feature_grid",
+    "imobile_countdown",
+    "imobile_about",
+    "imobile_partners",
     "imobile_testimonials",
+    "imobile_features",
+    "imobile_faq",
     "imobile_cta"
   ]
 }
