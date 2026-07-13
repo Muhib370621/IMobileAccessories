@@ -1,55 +1,53 @@
-{%- comment -%} iMobile Accessories — Hero (Dynamic-style split hero) {%- endcomment -%}
+{%- comment -%} iMobile Accessories — Hero (Smart-style: rating + rotating word) {%- endcomment -%}
+{%- assign words = section.settings.rotating_words | split: ',' -%}
 <style>
   #imhero-{{ section.id }} {
     background:
-      radial-gradient(1200px 500px at 85% -10%, rgba(45,72,149,0.12), transparent 60%),
-      linear-gradient(180deg, #f5f7fb 0%, #ffffff 100%);
+      radial-gradient(1100px 500px at 88% -10%, rgba(45,54,69,0.10), transparent 60%),
+      linear-gradient(180deg, #f6f7f9 0%, #ffffff 100%);
     padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
     overflow: hidden;
   }
   #imhero-{{ section.id }} .imh__inner {
     max-width: var(--page-width, 1400px);
     margin-inline: auto; padding-inline: 20px;
-    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center;
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 44px; align-items: center;
   }
-  #imhero-{{ section.id }} .imh__eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-accent--family, sans-serif);
-    text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.78rem; font-weight: 700;
-    color: #2d4895; margin-bottom: 18px;
-  }
-  #imhero-{{ section.id }} .imh__eyebrow::before { content:""; width:28px; height:2px; background:#2d4895; display:inline-block; }
+  #imhero-{{ section.id }} .imh__rating { display:inline-flex; align-items:center; gap:10px; margin-bottom:20px; }
+  #imhero-{{ section.id }} .imh__stars { color:#f5a623; letter-spacing:2px; font-size:0.95rem; }
+  #imhero-{{ section.id }} .imh__rating span { font-size:0.85rem; color:#5a6472; font-weight:500; }
   #imhero-{{ section.id }} .imh__title {
     font-family: var(--font-heading--family, sans-serif);
-    font-size: clamp(2.1rem, 5vw, 3.9rem); line-height: 1.05; letter-spacing: -0.02em;
-    margin: 0 0 18px; color: #0b1e3d;
+    font-size: clamp(2rem, 4.6vw, 3.5rem); line-height: 1.08; letter-spacing: -0.02em; font-weight:700;
+    margin: 0 0 18px; color: #222325;
   }
-  #imhero-{{ section.id }} .imh__title .accent { color: #2d4895; }
-  #imhero-{{ section.id }} .imh__text { font-size: 1.05rem; line-height: 1.6; color: #47536b; margin: 0 0 30px; max-width: 46ch; }
+  #imhero-{{ section.id }} .imh__rotate { color:#2d3645; position:relative; display:inline-block; }
+  #imhero-{{ section.id }} .imh__rotate::after { content:""; display:inline-block; }
+  #imhero-{{ section.id }} .imh__text { font-size: 1.05rem; line-height: 1.6; color: #5a6472; margin: 0 0 30px; max-width: 46ch; }
   #imhero-{{ section.id }} .imh__cta { display: flex; flex-wrap: wrap; gap: 14px; }
   #imhero-{{ section.id }} .imh__btn {
     display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
-    font-family: var(--font-accent--family, sans-serif); text-transform: uppercase;
-    font-size: 0.86rem; font-weight: 600; letter-spacing: 0.03em; padding: 15px 28px; border-radius: 10px;
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, background 0.25s;
+    font-family: var(--font-accent--family, sans-serif);
+    font-size: 0.92rem; font-weight: 600; padding: 14px 28px; border-radius: 6px;
+    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, background 0.25s, color .25s;
   }
-  #imhero-{{ section.id }} .imh__btn--primary { background: #2d4895; color: #fff; box-shadow: 0 14px 30px -12px rgba(45,72,149,0.7); }
-  #imhero-{{ section.id }} .imh__btn--primary:hover { transform: translateY(-3px); background: #0b1e3d; }
-  #imhero-{{ section.id }} .imh__btn--wa { background: #25D366; color: #fff; box-shadow: 0 14px 30px -12px rgba(37,211,102,0.7); }
-  #imhero-{{ section.id }} .imh__btn--wa:hover { transform: translateY(-3px); }
-  #imhero-{{ section.id }} .imh__btn--ghost { background: transparent; color: #0b1e3d; border: 1.5px solid #0b1e3d; }
-  #imhero-{{ section.id }} .imh__btn--ghost:hover { transform: translateY(-3px); background: #0b1e3d; color: #fff; }
+  #imhero-{{ section.id }} .imh__btn--primary { background: #2d3645; color: #fff; }
+  #imhero-{{ section.id }} .imh__btn--primary:hover { transform: translateY(-3px); background: #222325; box-shadow:0 14px 30px -12px rgba(34,35,37,0.6); }
+  #imhero-{{ section.id }} .imh__btn--wa { background: #25D366; color: #fff; }
+  #imhero-{{ section.id }} .imh__btn--wa:hover { transform: translateY(-3px); box-shadow:0 14px 30px -12px rgba(37,211,102,0.6); }
+  #imhero-{{ section.id }} .imh__btn--ghost { background: #fff; color: #222325; border: 1.5px solid #d7dbe2; }
+  #imhero-{{ section.id }} .imh__btn--ghost:hover { transform: translateY(-3px); border-color:#222325; }
   #imhero-{{ section.id }} .imh__media { position: relative; }
-  #imhero-{{ section.id }} .imh__media img { width: 100%; height: auto; display: block; border-radius: 22px; }
+  #imhero-{{ section.id }} .imh__media img { width: 100%; height: auto; display: block; border-radius: 18px; }
   #imhero-{{ section.id }} .imh__ph {
-    aspect-ratio: 5/4; border-radius: 22px;
-    background: linear-gradient(135deg, #2d4895, #0b1e3d);
-    display: grid; place-items: center; color: #ffffff; box-shadow: 0 40px 80px -40px rgba(11,30,61,0.6);
+    aspect-ratio: 5/4; border-radius: 18px;
+    background: linear-gradient(135deg, #2d3645, #222325);
+    display: grid; place-items: center; color: #ffffff; box-shadow: 0 40px 80px -40px rgba(34,35,37,0.6);
   }
-  #imhero-{{ section.id }} .imh__ph svg { width: 46%; height: auto; opacity: 0.9; }
-  #imhero-{{ section.id }} .imh__stats { display: flex; gap: 26px; margin-top: 34px; flex-wrap: wrap; }
-  #imhero-{{ section.id }} .imh__stat b { display:block; font-family: var(--font-heading--family, sans-serif); font-size: 1.5rem; color:#0b1e3d; line-height:1; }
-  #imhero-{{ section.id }} .imh__stat span { font-size: 0.8rem; color:#6b7688; }
+  #imhero-{{ section.id }} .imh__ph svg { width: 44%; height: auto; opacity: 0.9; }
+  #imhero-{{ section.id }} .imh__stats { display: flex; gap: 30px; margin-top: 34px; flex-wrap: wrap; }
+  #imhero-{{ section.id }} .imh__stat b { display:block; font-family: var(--font-heading--family, sans-serif); font-size: 1.5rem; color:#222325; line-height:1; }
+  #imhero-{{ section.id }} .imh__stat span { font-size: 0.8rem; color:#7a828f; }
   @media (max-width: 860px) {
     #imhero-{{ section.id }} .imh__inner { grid-template-columns: 1fr; gap: 30px; }
     #imhero-{{ section.id }} .imh__media { order: -1; }
@@ -58,8 +56,12 @@
 <section id="imhero-{{ section.id }}">
   <div class="imh__inner">
     <div class="imh__content">
-      {%- if section.settings.eyebrow != blank -%}<span class="imh__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
-      <h1 class="imh__title">{{ section.settings.heading }}{% if section.settings.heading_accent != blank %} <span class="accent">{{ section.settings.heading_accent }}</span>{% endif %}</h1>
+      {%- if section.settings.show_rating -%}
+        <div class="imh__rating"><span class="imh__stars">★★★★★</span><span>{{ section.settings.rating_text }}</span></div>
+      {%- endif -%}
+      <h1 class="imh__title">{{ section.settings.heading }}
+        {%- if words.size > 0 -%} <span class="imh__rotate" data-words="{{ section.settings.rotating_words | escape }}">{{ words.first | strip }}</span>{%- endif -%}
+      </h1>
       {%- if section.settings.text != blank -%}<p class="imh__text">{{ section.settings.text }}</p>{%- endif -%}
       <div class="imh__cta">
         {%- if section.settings.btn1_label != blank -%}
@@ -82,7 +84,7 @@
     </div>
     <div class="imh__media">
       {%- if section.settings.image != blank -%}
-        <img src="{{ section.settings.image | image_url: width: 1100 }}" alt="{{ section.settings.heading | strip_html | escape }}" width="1100" loading="eager">
+        <img src="{{ section.settings.image | image_url: width: 1100 }}" alt="{{ section.settings.heading | escape }}" width="1100" loading="eager">
       {%- else -%}
         <div class="imh__ph">
           <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/></svg>
@@ -90,19 +92,35 @@
       {%- endif -%}
     </div>
   </div>
+  <script>
+    (function(){
+      var el = document.querySelector('#imhero-{{ section.id }} .imh__rotate');
+      if(!el) return;
+      var words = (el.getAttribute('data-words')||'').split(',').map(function(w){return w.trim();}).filter(Boolean);
+      if(words.length < 2) return;
+      var i = 0;
+      setInterval(function(){
+        i = (i+1) % words.length;
+        el.style.transition='opacity .25s ease, transform .25s ease';
+        el.style.opacity='0'; el.style.transform='translateY(6px)';
+        setTimeout(function(){ el.textContent = words[i]; el.style.opacity='1'; el.style.transform='none'; }, 260);
+      }, 2200);
+    })();
+  </script>
 </section>
 {% schema %}
 {
   "name": "iMobile Hero",
   "tag": "section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "iMobile Accessories" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Premium Mobiles &" },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent (blue)", "default": "Accessories" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating badge", "default": true },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "Trusted by customers across Karachi" },
+    { "type": "text", "id": "heading", "label": "Heading (static part)", "default": "Smart Mobiles & Accessories for" },
+    { "type": "text", "id": "rotating_words", "label": "Rotating words (comma separated)", "default": "Work, Travel, Gaming, Life" },
     { "type": "text", "id": "text", "label": "Text", "default": "We deal in all mobile phones and accessories — genuine products, best prices, and fast delivery across Karachi." },
-    { "type": "text", "id": "btn1_label", "label": "Button 1 label", "default": "Shop Now" },
+    { "type": "text", "id": "btn1_label", "label": "Button 1 label", "default": "Shop All" },
     { "type": "url", "id": "btn1_link", "label": "Button 1 link" },
-    { "type": "text", "id": "btn2_label", "label": "Button 2 label", "default": "Explore Collection" },
+    { "type": "text", "id": "btn2_label", "label": "Button 2 label", "default": "See More" },
     { "type": "url", "id": "btn2_link", "label": "Button 2 link" },
     { "type": "checkbox", "id": "show_whatsapp", "label": "Show WhatsApp button", "default": true },
     { "type": "checkbox", "id": "show_stats", "label": "Show stats row", "default": true },

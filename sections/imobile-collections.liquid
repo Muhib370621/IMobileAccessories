@@ -6,7 +6,7 @@
   endif
 -%}
 <style>
-  #imcol-{{ section.id }} { padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; background: #0b1e3d; color:#fff; }
+  #imcol-{{ section.id }} { padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; background: #222325; color:#fff; }
   #imcol-{{ section.id }} .imcol__inner { max-width: var(--page-width, 1400px); margin-inline:auto; padding-inline:20px; }
   #imcol-{{ section.id }} .imcol__head { text-align:center; margin-bottom: 34px; }
   #imcol-{{ section.id }} .imcol__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.16em; font-size:0.74rem; font-weight:700; color:#7f9bff; display:block; margin-bottom:8px; }
@@ -15,11 +15,11 @@
   #imcol-{{ section.id }} .imcol__card { position:relative; display:block; border-radius:18px; overflow:hidden; text-decoration:none; aspect-ratio: 3/4; background:#12264a; }
   #imcol-{{ section.id }} .imcol__card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition: transform .6s cubic-bezier(0.22,1,0.36,1); }
   #imcol-{{ section.id }} .imcol__card:hover img { transform: scale(1.08); }
-  #imcol-{{ section.id }} .imcol__ph { position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(135deg,#2d4895,#0b1e3d); color:rgba(255,255,255,0.5); }
+  #imcol-{{ section.id }} .imcol__ph { position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(135deg,#2d3645,#222325); color:rgba(255,255,255,0.5); }
   #imcol-{{ section.id }} .imcol__ph svg { width:38%; }
   #imcol-{{ section.id }} .imcol__overlay { position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,30,61,0) 35%, rgba(11,30,61,0.85) 100%); z-index:1; }
   #imcol-{{ section.id }} .imcol__meta { position:absolute; left:0; right:0; bottom:0; z-index:2; padding:18px; }
-  #imcol-{{ section.id }} .imcol__count { display:inline-block; background:#2d4895; color:#fff; font-family: var(--font-accent--family, sans-serif); font-size:0.7rem; font-weight:700; padding:4px 10px; border-radius:999px; margin-bottom:8px; }
+  #imcol-{{ section.id }} .imcol__count { display:inline-block; background:#2d3645; color:#fff; font-family: var(--font-accent--family, sans-serif); font-size:0.7rem; font-weight:700; padding:4px 10px; border-radius:999px; margin-bottom:8px; }
   #imcol-{{ section.id }} .imcol__name { font-family: var(--font-heading--family, sans-serif); font-size:1.05rem; color:#fff; margin:0; }
   @media (max-width: 990px) { #imcol-{{ section.id }} .imcol__grid { grid-template-columns: repeat(2,1fr); } }
   @media (max-width: 480px) { #imcol-{{ section.id }} .imcol__grid { gap:12px; } }
