@@ -1,0 +1,120 @@
+{%- comment -%} iMobile Accessories — Product showcase (carousel/grid with sale badges) {%- endcomment -%}
+{%- liquid
+  assign coll = section.settings.collection
+  if coll != blank and coll.products_count > 0
+    assign product_list = coll.products
+  else
+    assign product_list = collections.all.products
+  endif
+  assign cols = section.settings.columns
+-%}
+<style>
+  #improd-{{ section.id }} {
+    padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.background }};
+    color: var(--color-foreground);
+  }
+  #improd-{{ section.id }} .improd__inner { max-width: var(--page-width, 1400px); margin-inline: auto; padding-inline: 20px; }
+  #improd-{{ section.id }} .improd__head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom: 28px; }
+  #improd-{{ section.id }} .improd__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.14em; font-size:0.74rem; font-weight:700; color:#2d4895; display:block; margin-bottom:6px; }
+  #improd-{{ section.id }} .improd__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.5rem,3.5vw,2.3rem); margin:0; color:#0b1e3d; }
+  #improd-{{ section.id }} .improd__all { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; font-size:0.8rem; font-weight:600; color:#2d4895; text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; transition:border-color .25s; }
+  #improd-{{ section.id }} .improd__all:hover { border-color:#2d4895; }
+  #improd-{{ section.id }} .improd__grid { display:grid; grid-template-columns: repeat({{ cols }}, 1fr); gap: 22px; }
+  #improd-{{ section.id }} .improd__card { position:relative; display:flex; flex-direction:column; background:#fff; border:1px solid #eceff5; border-radius:16px; overflow:hidden; transition: transform .4s cubic-bezier(0.22,1,0.36,1), box-shadow .4s; }
+  #improd-{{ section.id }} .improd__card:hover { transform: translateY(-6px); box-shadow: 0 24px 44px -24px rgba(11,30,61,0.4); }
+  #improd-{{ section.id }} .improd__media { position:relative; display:block; aspect-ratio: 1/1; background:#f5f7fb; overflow:hidden; }
+  #improd-{{ section.id }} .improd__media img { width:100%; height:100%; object-fit:cover; transition: transform .6s cubic-bezier(0.22,1,0.36,1); }
+  #improd-{{ section.id }} .improd__card:hover .improd__media img { transform: scale(1.07); }
+  #improd-{{ section.id }} .improd__ph { width:100%; height:100%; display:grid; place-items:center; color:#c4ccdb; }
+  #improd-{{ section.id }} .improd__ph svg { width:40%; }
+  #improd-{{ section.id }} .improd__badge { position:absolute; top:12px; left:12px; background:#e11d48; color:#fff; font-family: var(--font-accent--family, sans-serif); font-size:0.7rem; font-weight:700; letter-spacing:0.03em; padding:5px 10px; border-radius:999px; z-index:2; }
+  #improd-{{ section.id }} .improd__body { padding:16px 16px 18px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  #improd-{{ section.id }} .improd__name { font-family: var(--font-body--family, sans-serif); font-size:0.95rem; font-weight:600; color:#0b1e3d; text-decoration:none; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.6em; }
+  #improd-{{ section.id }} .improd__name:hover { color:#2d4895; }
+  #improd-{{ section.id }} .improd__price { display:flex; align-items:baseline; gap:8px; margin-top:auto; }
+  #improd-{{ section.id }} .improd__now { font-family: var(--font-heading--family, sans-serif); font-size:1.05rem; font-weight:700; color:#0b1e3d; }
+  #improd-{{ section.id }} .improd__was { font-size:0.85rem; color:#9aa4b6; text-decoration:line-through; }
+  #improd-{{ section.id }} .improd__add { margin-top:4px; }
+  #improd-{{ section.id }} .improd__add button { width:100%; border:none; cursor:pointer; background:#0b1e3d; color:#fff; font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; font-size:0.78rem; font-weight:600; letter-spacing:0.04em; padding:11px 14px; border-radius:10px; transition: background .25s, transform .2s; }
+  #improd-{{ section.id }} .improd__add button:hover { background:#2d4895; }
+  #improd-{{ section.id }} .improd__add button[disabled] { background:#9aa4b6; cursor:not-allowed; }
+  @media (max-width: 990px) { #improd-{{ section.id }} .improd__grid { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width: 749px) {
+    #improd-{{ section.id }} .improd__grid { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:14px; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
+    #improd-{{ section.id }} .improd__card { flex:0 0 62%; scroll-snap-align:start; }
+  }
+</style>
+<section id="improd-{{ section.id }}">
+  <div class="improd__inner">
+    <div class="improd__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="improd__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="improd__title">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.show_view_all -%}
+        <a class="improd__all" href="{% if coll != blank %}{{ coll.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">View all →</a>
+      {%- endif -%}
+    </div>
+    <div class="improd__grid">
+      {%- for product in product_list limit: section.settings.max -%}
+        {%- liquid
+          assign v = product.selected_or_first_available_variant
+          assign on_sale = false
+          if v.compare_at_price > v.price
+            assign on_sale = true
+            assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+          endif
+        -%}
+        <div class="improd__card">
+          <a class="improd__media" href="{{ product.url }}">
+            {%- if on_sale -%}<span class="improd__badge">-{{ pct }}% OFF</span>{%- endif -%}
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" width="600" height="600" loading="lazy">
+            {%- else -%}
+              <span class="improd__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
+            {%- endif -%}
+          </a>
+          <div class="improd__body">
+            <a class="improd__name" href="{{ product.url }}">{{ product.title }}</a>
+            <div class="improd__price">
+              <span class="improd__now">{{ v.price | money }}</span>
+              {%- if on_sale -%}<span class="improd__was">{{ v.compare_at_price | money }}</span>{%- endif -%}
+            </div>
+            <div class="improd__add">
+              {%- if product.available -%}
+                <form method="post" action="{{ routes.cart_add_url }}">
+                  <input type="hidden" name="id" value="{{ v.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit">Add to Cart</button>
+                </form>
+              {%- else -%}
+                <button type="button" disabled>Sold Out</button>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        <p style="opacity:.6">No products yet. Add products to your store to see them here.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "iMobile Products",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Just In" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Latest Arrivals" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to show all products" },
+    { "type": "range", "id": "max", "label": "Products to show", "min": 4, "max": 20, "step": 1, "default": 8 },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 3, "max": 5, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' link", "default": true },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [{ "name": "iMobile — Products" }]
+}
+{% endschema %}
