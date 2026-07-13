@@ -1,0 +1,106 @@
+{%- comment -%} iMobile Accessories — Featured single product {%- endcomment -%}
+{%- liquid
+  assign product = section.settings.product
+  if product == blank
+    assign product = collections.all.products.first
+  endif
+  assign v = product.selected_or_first_available_variant
+-%}
+<style>
+  #imfp-{{ section.id }} { padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; background: {{ section.settings.background }}; }
+  #imfp-{{ section.id }} .imfp__inner { max-width: var(--page-width, 1400px); margin-inline:auto; padding-inline:20px; }
+  #imfp-{{ section.id }} .imfp__head { text-align:center; margin-bottom:34px; }
+  #imfp-{{ section.id }} .imfp__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.16em; font-size:0.72rem; font-weight:700; color:#8a94a6; display:block; margin-bottom:8px; }
+  #imfp-{{ section.id }} .imfp__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.5rem,3.5vw,2.3rem); margin:0 0 6px; color:#222325; }
+  #imfp-{{ section.id }} .imfp__sub { margin:0; color:#7a828f; }
+  #imfp-{{ section.id }} .imfp__grid { display:grid; grid-template-columns: 1fr 1fr; gap:44px; align-items:center; }
+  #imfp-{{ section.id }} .imfp__media { border-radius:16px; overflow:hidden; background:#f0f2f5; aspect-ratio:1/1; }
+  #imfp-{{ section.id }} .imfp__media img { width:100%; height:100%; object-fit:cover; }
+  #imfp-{{ section.id }} .imfp__ph { width:100%; height:100%; display:grid; place-items:center; color:#c4ccdb; }
+  #imfp-{{ section.id }} .imfp__ph svg { width:36%; }
+  #imfp-{{ section.id }} .imfp__pname { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.4rem,2.6vw,2rem); margin:0 0 12px; color:#222325; }
+  #imfp-{{ section.id }} .imfp__price { display:flex; align-items:baseline; gap:10px; margin-bottom:18px; }
+  #imfp-{{ section.id }} .imfp__now { font-size:1.5rem; font-weight:700; color:#222325; }
+  #imfp-{{ section.id }} .imfp__was { font-size:1rem; color:#9aa4b6; text-decoration:line-through; }
+  #imfp-{{ section.id }} .imfp__badge { background:#e11d48; color:#fff; font-size:0.72rem; font-weight:700; padding:3px 9px; border-radius:999px; }
+  #imfp-{{ section.id }} .imfp__desc { color:#5f6773; line-height:1.6; margin:0 0 24px; max-width:52ch; }
+  #imfp-{{ section.id }} .imfp__form { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  #imfp-{{ section.id }} .imfp__qty { display:inline-flex; align-items:center; border:1px solid #d7dbe2; border-radius:6px; overflow:hidden; }
+  #imfp-{{ section.id }} .imfp__qty button { border:none; background:#fff; width:40px; height:44px; font-size:1.1rem; cursor:pointer; color:#222325; }
+  #imfp-{{ section.id }} .imfp__qty input { width:44px; height:44px; border:none; text-align:center; font-size:1rem; -moz-appearance:textfield; }
+  #imfp-{{ section.id }} .imfp__qty input::-webkit-outer-spin-button, #imfp-{{ section.id }} .imfp__qty input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+  #imfp-{{ section.id }} .imfp__add { flex:1; min-width:180px; border:none; cursor:pointer; background:#222325; color:#fff; font-family: var(--font-accent--family, sans-serif); font-weight:600; font-size:0.95rem; padding:14px 22px; border-radius:6px; transition: background .25s, transform .2s; }
+  #imfp-{{ section.id }} .imfp__add:hover { background:#2d3645; transform: translateY(-2px); }
+  @media (max-width:860px){ #imfp-{{ section.id }} .imfp__grid{ grid-template-columns:1fr; gap:28px; } }
+</style>
+<section id="imfp-{{ section.id }}">
+  <div class="imfp__inner">
+    <div class="imfp__head">
+      {%- if section.settings.eyebrow != blank -%}<span class="imfp__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="imfp__title">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="imfp__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    {%- if product != blank -%}
+      {%- liquid
+        assign on_sale = false
+        if v.compare_at_price > v.price
+          assign on_sale = true
+          assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+        endif
+      -%}
+      <div class="imfp__grid">
+        <a class="imfp__media" href="{{ product.url }}">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" loading="lazy">
+          {%- else -%}
+            <span class="imfp__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
+          {%- endif -%}
+        </a>
+        <div class="imfp__content">
+          <h3 class="imfp__pname">{{ product.title }}</h3>
+          <div class="imfp__price">
+            <span class="imfp__now">{{ v.price | money }}</span>
+            {%- if on_sale -%}<span class="imfp__was">{{ v.compare_at_price | money }}</span><span class="imfp__badge">-{{ pct }}%</span>{%- endif -%}
+          </div>
+          <p class="imfp__desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+          <form method="post" action="{{ routes.cart_add_url }}" class="imfp__form">
+            <input type="hidden" name="id" value="{{ v.id }}">
+            <div class="imfp__qty">
+              <button type="button" data-dec aria-label="Decrease">−</button>
+              <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+              <button type="button" data-inc aria-label="Increase">+</button>
+            </div>
+            <button type="submit" class="imfp__add" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+          </form>
+        </div>
+      </div>
+      <script>
+        (function(){
+          var s=document.getElementById('imfp-{{ section.id }}');
+          if(!s) return;
+          var inp=s.querySelector('.imfp__qty input');
+          s.querySelector('[data-dec]').addEventListener('click',function(){ inp.value=Math.max(1,(parseInt(inp.value)||1)-1); });
+          s.querySelector('[data-inc]').addEventListener('click',function(){ inp.value=(parseInt(inp.value)||1)+1; });
+        })();
+      </script>
+    {%- else -%}
+      <p style="text-align:center;opacity:.6">Select a product in the theme editor to feature it here.</p>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "iMobile Featured Product",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Featured Product" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Essential Accessories, Refined Design" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Genuine, durable accessories for modern convenience." },
+    { "type": "product", "id": "product", "label": "Product", "info": "Leave empty to use the first available product" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#f6f7f9" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "presets": [{ "name": "iMobile — Featured Product" }]
+}
+{% endschema %}

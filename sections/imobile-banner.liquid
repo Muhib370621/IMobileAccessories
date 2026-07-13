@@ -1,0 +1,56 @@
+{%- comment -%} iMobile Accessories — Dark feature banner with tags {%- endcomment -%}
+{%- assign tags = section.settings.tags | split: ',' -%}
+<style>
+  #imbr-{{ section.id }} { position:relative; background:#1a1c20; color:#fff; overflow:hidden; }
+  #imbr-{{ section.id }} .imbr__bg { position:absolute; inset:0; z-index:0; }
+  #imbr-{{ section.id }} .imbr__bg img { width:100%; height:100%; object-fit:cover; opacity:0.35; }
+  #imbr-{{ section.id }} .imbr__inner { position:relative; z-index:1; max-width: var(--page-width, 1400px); margin-inline:auto; padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px; }
+  #imbr-{{ section.id }} .imbr__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.16em; font-size:0.72rem; font-weight:700; color:#9aa2b0; display:block; margin-bottom:12px; }
+  #imbr-{{ section.id }} .imbr__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.6rem,4vw,2.6rem); margin:0 0 14px; max-width:20ch; line-height:1.12; }
+  #imbr-{{ section.id }} .imbr__text { margin:0 0 26px; color:#c4c9d2; max-width:56ch; line-height:1.6; }
+  #imbr-{{ section.id }} .imbr__btn { display:inline-flex; align-items:center; gap:9px; background:#fff; color:#1a1c20; text-decoration:none; font-family: var(--font-accent--family, sans-serif); font-weight:600; font-size:0.9rem; padding:13px 26px; border-radius:6px; transition: transform .25s cubic-bezier(0.22,1,0.36,1); }
+  #imbr-{{ section.id }} .imbr__btn:hover { transform: translateY(-3px); }
+  #imbr-{{ section.id }} .imbr__tags { display:flex; flex-wrap:wrap; gap:26px; margin-top:34px; padding-top:26px; border-top:1px solid rgba(255,255,255,0.14); }
+  #imbr-{{ section.id }} .imbr__tag { display:inline-flex; align-items:center; gap:9px; font-size:0.92rem; font-weight:500; color:#e6e9ee; }
+  #imbr-{{ section.id }} .imbr__tag svg { width:18px; height:18px; color:#7f9bff; }
+  @media (max-width:600px){ #imbr-{{ section.id }} .imbr__tags{ gap:16px; } }
+</style>
+<section id="imbr-{{ section.id }}">
+  {%- if section.settings.image != blank -%}
+    <div class="imbr__bg"><img src="{{ section.settings.image | image_url: width: 1600 }}" alt="" loading="lazy"></div>
+  {%- endif -%}
+  <div class="imbr__inner">
+    {%- if section.settings.eyebrow != blank -%}<span class="imbr__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+    <h2 class="imbr__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="imbr__text">{{ section.settings.text }}</p>{%- endif -%}
+    {%- if section.settings.btn_label != blank -%}<a class="imbr__btn" href="{{ section.settings.btn_link | default: '#' }}">{{ section.settings.btn_label }}</a>{%- endif -%}
+    {%- if tags.size > 0 -%}
+      <div class="imbr__tags">
+        {%- for t in tags -%}
+          {%- assign tag = t | strip -%}
+          {%- if tag != blank -%}
+            <span class="imbr__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"/></svg>{{ tag }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "iMobile Dark Banner",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Protection First" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Keep Your Device Safe in Style" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Protect your phone and gear with durable covers, screen protectors and cases built to handle everyday wear — without compromising on style." },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Shop Protection" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "text", "id": "tags", "label": "Tags (comma separated)", "default": "Durable, Slim Fit, Lightweight, Stylish" },
+    { "type": "image_picker", "id": "image", "label": "Background image (optional)" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 20, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 20, "max": 160, "step": 4, "unit": "px", "default": 72 }
+  ],
+  "presets": [{ "name": "iMobile — Dark Banner" }]
+}
+{% endschema %}

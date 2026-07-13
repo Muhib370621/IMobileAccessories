@@ -1,0 +1,13 @@
+{%- comment -%} iMobile bento tile. Params: block, big {%- endcomment -%}
+<a class="imbn__card{% if big %} imbn__card--big{% endif %}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+  {%- if block.settings.image != blank -%}
+    <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+  {%- else -%}
+    <span class="imbn__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
+  {%- endif -%}
+  <span class="imbn__ov"></span>
+  <span class="imbn__body">
+    <span class="imbn__name">{{ block.settings.title }}</span>
+    <span class="imbn__link">{{ block.settings.link_label | default: 'Shop Now' }} →</span>
+  </span>
+</a>

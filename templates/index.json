@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "imobile_hero": {
@@ -16,7 +7,7 @@
         "rating_text": "Trusted by customers across Karachi",
         "heading": "Smart Mobiles & Accessories for",
         "rotating_words": "Work, Travel, Gaming, Life",
-        "text": "We deal in all mobile phones and accessories — genuine products, best prices, and fast delivery across Karachi.",
+        "text": "Upgrade your essentials with genuine mobile phones and accessories — crafted for every moment, work, travel and beyond.",
         "btn1_label": "Shop All",
         "btn1_link": "shopify://collections/all",
         "btn2_label": "See More",
@@ -25,24 +16,55 @@
         "show_stats": true
       }
     },
-    "imobile_categories": {
-      "type": "imobile-categories",
-      "settings": { "eyebrow": "Collections", "heading": "Shop by Category" }
+    "imobile_strip": {
+      "type": "imobile-strip",
+      "blocks": {
+        "s1": { "type": "cell", "settings": { "caption": "Phones", "link": "shopify://collections/all" } },
+        "s2": { "type": "cell", "settings": { "caption": "Earbuds", "link": "shopify://collections/all" } },
+        "s3": { "type": "cell", "settings": { "caption": "Watches", "link": "shopify://collections/all" } },
+        "s4": { "type": "cell", "settings": { "caption": "Chargers", "link": "shopify://collections/all" } },
+        "s5": { "type": "cell", "settings": { "caption": "Covers", "link": "shopify://collections/all" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5"]
+    },
+    "imobile_bento": {
+      "type": "imobile-bento",
+      "settings": {
+        "eyebrow": "Collections",
+        "heading": "Mobiles & Accessories, Smarter Living",
+        "subheading": "Discover genuine accessories designed to enhance your devices and simplify everyday life."
+      },
+      "blocks": {
+        "t1": { "type": "tile", "settings": { "title": "Mobile Covers", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "t2": { "type": "tile", "settings": { "title": "Smart Watches", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "t3": { "type": "tile", "settings": { "title": "Earbuds", "link_label": "Shop Now", "link": "shopify://collections/all" } },
+        "t4": { "type": "tile", "settings": { "title": "Chargers", "link_label": "Shop Now", "link": "shopify://collections/all" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"]
     },
     "imobile_bestsellers": {
       "type": "imobile-products",
-      "settings": { "eyebrow": "Bestsellers", "heading": "Trending Now", "max": 8, "columns": 4, "show_view_all": true, "background": "#ffffff" }
+      "settings": { "eyebrow": "Bestsellers", "heading": "Trending Now", "max": 6, "columns": 3, "show_view_all": true, "background": "#ffffff" }
     },
-    "imobile_feature_grid": {
-      "type": "imobile-feature-grid",
-      "settings": { "eyebrow": "Why iMobile", "heading": "Accessories for Every Need", "columns": 4 },
-      "blocks": {
-        "c1": { "type": "card", "settings": { "title": "Durable Phone Covers", "link_label": "Shop Now", "link": "shopify://collections/all" } },
-        "c2": { "type": "card", "settings": { "title": "Fast Chargers & Cables", "link_label": "Shop Now", "link": "shopify://collections/all" } },
-        "c3": { "type": "card", "settings": { "title": "Wireless Earbuds & Audio", "link_label": "Shop Now", "link": "shopify://collections/all" } },
-        "c4": { "type": "card", "settings": { "title": "Smart Watches & Straps", "link_label": "Shop Now", "link": "shopify://collections/all" } }
-      },
-      "block_order": ["c1", "c2", "c3", "c4"]
+    "imobile_banner": {
+      "type": "imobile-banner",
+      "settings": {
+        "eyebrow": "Protection First",
+        "heading": "Keep Your Device Safe in Style",
+        "text": "Protect your phone and gear with durable covers, screen protectors and cases built to handle everyday wear — without compromising on style.",
+        "btn_label": "Shop Protection",
+        "btn_link": "shopify://collections/all",
+        "tags": "Durable, Slim Fit, Lightweight, Stylish"
+      }
+    },
+    "imobile_featured_product": {
+      "type": "imobile-featured-product",
+      "settings": {
+        "eyebrow": "Featured Product",
+        "heading": "Essential Accessories, Refined Design",
+        "subheading": "Genuine, durable accessories for modern convenience.",
+        "background": "#f6f7f9"
+      }
     },
     "imobile_countdown": {
       "type": "imobile-countdown",
@@ -50,25 +72,29 @@
     },
     "imobile_about": {
       "type": "imobile-about",
-      "settings": { "eyebrow": "About Us", "heading": "A Store Committed to Genuine Products", "text": "iMobile Accessories deals in all mobile phones and accessories. We focus on genuine products, honest prices and friendly service — so you can shop with complete confidence.", "btn_label": "Contact Us", "btn_link": "shopify://pages/contact", "background": "#ffffff" }
+      "settings": {
+        "eyebrow": "About Us",
+        "heading": "A Store Committed to Genuine Products",
+        "text": "iMobile Accessories deals in all mobile phones and accessories. We focus on genuine products, honest prices and friendly service — so you can shop with complete confidence.",
+        "btn_label": "Contact Us",
+        "btn_link": "shopify://pages/contact",
+        "background": "#ffffff"
+      }
     },
     "imobile_partners": { "type": "imobile-partners", "settings": {} },
     "imobile_testimonials": {
       "type": "imobile-testimonials",
+      "settings": {},
       "blocks": {
         "r1": { "type": "review", "settings": { "quote": "Original product mila, price bhi best tha aur delivery bohat fast thi. Highly recommended!", "name": "Ahmed Khan", "role": "Verified Customer" } },
         "r2": { "type": "review", "settings": { "quote": "Great collection of accessories and very honest dealing. WhatsApp par turant reply mila.", "name": "Sana Malik", "role": "Verified Customer" } },
-        "r3": { "type": "review", "settings": { "quote": "Genuine mobile phone at a fair price. Shop staff bohat cooperative the. Will buy again.", "name": "Bilal Raza", "role": "Verified Customer" } },
-        "r4": { "type": "review", "settings": { "quote": "Bohat achi service. Earbuds original nikle aur delivery same day ho gayi.", "name": "Hina Shaikh", "role": "Verified Customer" } },
-        "r5": { "type": "review", "settings": { "quote": "Best prices in Karachi for accessories. Charger aur cover dono perfect the.", "name": "Usman Tariq", "role": "Verified Customer" } },
-        "r6": { "type": "review", "settings": { "quote": "Trusted shop. Smart watch genuine mila with warranty. Highly satisfied!", "name": "Ayesha Noor", "role": "Verified Customer" } }
+        "r3": { "type": "review", "settings": { "quote": "Genuine mobile phone at a fair price. Shop staff bohat cooperative the. Will buy again.", "name": "Bilal Raza", "role": "Verified Customer" } }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
-      "settings": {}
+      "block_order": ["r1", "r2", "r3"]
     },
     "imobile_features": {
       "type": "imobile-features",
-      "settings": { "eyebrow": "Features", "heading": "Genuine Accessories Built to Last" },
+      "settings": { "eyebrow": "Features", "heading": "Genuine Accessories Built to Last", "columns": 4, "background": "#ffffff" },
       "blocks": {
         "f1": { "type": "feature", "settings": { "icon": "original", "title": "100% Original", "text": "Genuine, branded mobiles and accessories only." } },
         "f2": { "type": "feature", "settings": { "icon": "quality", "title": "Superior Quality", "text": "Every product passes a careful quality check." } },
@@ -76,6 +102,10 @@
         "f4": { "type": "feature", "settings": { "icon": "support", "title": "Friendly Support", "text": "Reach us on WhatsApp any time — we reply fast." } }
       },
       "block_order": ["f1", "f2", "f3", "f4"]
+    },
+    "imobile_blog": {
+      "type": "imobile-blog",
+      "settings": { "eyebrow": "Newsroom", "heading": "Stay Informed, Stay Inspired", "max": 3 }
     },
     "imobile_faq": {
       "type": "imobile-faq",
@@ -88,19 +118,31 @@
       },
       "block_order": ["q1", "q2", "q3", "q4"]
     },
-    "imobile_cta": { "type": "imobile-cta", "settings": {} }
+    "imobile_free_delivery": {
+      "type": "imobile-promo",
+      "settings": {
+        "badge": "Free Delivery",
+        "heading": "Unlock Free Delivery on Orders Over Rs. 5,000",
+        "text": "Shop your favourite mobiles and accessories and get them delivered to your doorstep — free.",
+        "btn_label": "Shop All",
+        "btn_link": "shopify://collections/all"
+      }
+    }
   },
   "order": [
     "imobile_hero",
-    "imobile_categories",
+    "imobile_strip",
+    "imobile_bento",
     "imobile_bestsellers",
-    "imobile_feature_grid",
+    "imobile_banner",
+    "imobile_featured_product",
     "imobile_countdown",
     "imobile_about",
     "imobile_partners",
     "imobile_testimonials",
     "imobile_features",
+    "imobile_blog",
     "imobile_faq",
-    "imobile_cta"
+    "imobile_free_delivery"
   ]
 }

@@ -1,44 +1,33 @@
-{%- comment -%} iMobile Accessories — Features list (image + list) {%- endcomment -%}
+{%- comment -%} iMobile Accessories — Features (4-column icon row, Smart-style) {%- endcomment -%}
 <style>
-  #imft-{{ section.id }} { padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; background: var(--color-background); }
-  #imft-{{ section.id }} .imft__inner { max-width: var(--page-width, 1400px); margin-inline:auto; padding-inline:20px; display:grid; grid-template-columns: 0.9fr 1.1fr; gap:44px; align-items:center; }
-  #imft-{{ section.id }} .imft__media { border-radius:18px; overflow:hidden; }
-  #imft-{{ section.id }} .imft__media img { width:100%; height:100%; object-fit:cover; display:block; }
-  #imft-{{ section.id }} .imft__ph { aspect-ratio:4/5; background:linear-gradient(135deg,#2d3645,#222325); display:grid; place-items:center; color:rgba(255,255,255,0.4); }
-  #imft-{{ section.id }} .imft__ph svg { width:34%; }
+  #imft-{{ section.id }} { padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px; background: {{ section.settings.background }}; }
+  #imft-{{ section.id }} .imft__inner { max-width: var(--page-width, 1400px); margin-inline:auto; padding-inline:20px; }
+  #imft-{{ section.id }} .imft__head { margin-bottom:34px; max-width:42ch; }
   #imft-{{ section.id }} .imft__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.16em; font-size:0.72rem; font-weight:700; color:#8a94a6; display:block; margin-bottom:10px; }
-  #imft-{{ section.id }} .imft__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.5rem,3.5vw,2.2rem); margin:0 0 26px; color:#222325; line-height:1.15; }
-  #imft-{{ section.id }} .imft__list { display:flex; flex-direction:column; gap:20px; }
-  #imft-{{ section.id }} .imft__row { display:flex; gap:16px; align-items:flex-start; }
-  #imft-{{ section.id }} .imft__ic { flex:0 0 46px; width:46px; height:46px; border-radius:12px; background:#f0f2f6; display:grid; place-items:center; color:#2d3645; }
+  #imft-{{ section.id }} .imft__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.5rem,3.5vw,2.2rem); margin:0; color:#222325; line-height:1.15; }
+  #imft-{{ section.id }} .imft__grid { display:grid; grid-template-columns: repeat({{ section.settings.columns }}, 1fr); gap:24px; }
+  #imft-{{ section.id }} .imft__col { padding-top:22px; border-top:2px solid #e7e9ee; }
+  #imft-{{ section.id }} .imft__ic { width:44px; height:44px; border-radius:10px; background:#eef0f4; display:grid; place-items:center; color:#2d3645; margin-bottom:16px; }
   #imft-{{ section.id }} .imft__ic svg { width:22px; height:22px; }
-  #imft-{{ section.id }} .imft__ftitle { font-family: var(--font-heading--family, sans-serif); font-size:1.05rem; margin:0 0 4px; color:#222325; }
-  #imft-{{ section.id }} .imft__ftext { margin:0; color:#6a7280; font-size:0.92rem; line-height:1.5; }
-  @media (max-width: 860px){ #imft-{{ section.id }} .imft__inner{ grid-template-columns:1fr; gap:28px; } #imft-{{ section.id }} .imft__media{ order:-1; } }
+  #imft-{{ section.id }} .imft__ftitle { font-family: var(--font-heading--family, sans-serif); font-size:1.05rem; margin:0 0 6px; color:#222325; }
+  #imft-{{ section.id }} .imft__ftext { margin:0; color:#6a7280; font-size:0.9rem; line-height:1.55; }
+  @media (max-width:900px){ #imft-{{ section.id }} .imft__grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width:520px){ #imft-{{ section.id }} .imft__grid{ grid-template-columns:1fr; } }
 </style>
 <section id="imft-{{ section.id }}">
   <div class="imft__inner">
-    <div class="imft__media">
-      {%- if section.settings.image != blank -%}
-        <img src="{{ section.settings.image | image_url: width: 800 }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
-      {%- else -%}
-        <div class="imft__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></div>
-      {%- endif -%}
-    </div>
-    <div class="imft__content">
+    <div class="imft__head">
       {%- if section.settings.eyebrow != blank -%}<span class="imft__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
       <h2 class="imft__title">{{ section.settings.heading }}</h2>
-      <div class="imft__list">
-        {%- for block in section.blocks -%}
-          <div class="imft__row" {{ block.shopify_attributes }}>
-            <span class="imft__ic">{% render 'im-trust-icon', name: block.settings.icon %}</span>
-            <div>
-              <h3 class="imft__ftitle">{{ block.settings.title }}</h3>
-              <p class="imft__ftext">{{ block.settings.text }}</p>
-            </div>
-          </div>
-        {%- endfor -%}
-      </div>
+    </div>
+    <div class="imft__grid">
+      {%- for block in section.blocks -%}
+        <div class="imft__col" {{ block.shopify_attributes }}>
+          <span class="imft__ic">{% render 'im-trust-icon', name: block.settings.icon %}</span>
+          <h3 class="imft__ftitle">{{ block.settings.title }}</h3>
+          <p class="imft__ftext">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
     </div>
   </div>
 </section>
@@ -49,9 +38,10 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Features" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Genuine Accessories Built to Last" },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
-    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+    { "type": "range", "id": "columns", "label": "Columns", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 }
   ],
   "blocks": [
     {
@@ -68,7 +58,7 @@
             { "value": "returns", "label": "Returns" }
           ] },
         { "type": "text", "id": "title", "label": "Title", "default": "Superior Quality" },
-        { "type": "text", "id": "text", "label": "Text", "default": "Only genuine, branded products that pass our quality checks." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Only genuine, branded products that pass our quality checks." }
       ]
     }
   ],
