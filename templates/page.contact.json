@@ -76,6 +76,10 @@
         "padding-block-end": 0
       }
     },
+    "imobile_contact": {
+      "type": "imobile-contact-info",
+      "settings": {}
+    },
     "form": {
       "type": "section",
       "blocks": {
@@ -146,6 +150,7 @@
   },
   "order": [
     "main",
+    "imobile_contact",
     "form"
   ]
 }

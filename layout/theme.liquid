@@ -42,6 +42,7 @@
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+    {% render 'imobile-topbar' %}
     <div id="header-group">
       {% sections 'header-group' %}
     </div>
@@ -134,5 +135,7 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {% render 'imobile-enhancements' %}
   </body>
 </html>
