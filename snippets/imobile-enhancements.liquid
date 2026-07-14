@@ -192,6 +192,15 @@
   html.im-dark .im-mode .ic-sun { display: block; }
   html.im-dark .im-mode .ic-moon { display: none; }
   @media (max-width: 749px) { .im-mode { left: 14px; bottom: 70px; width: 42px; height: 42px; } }
+  /* toggle relocated into the header, beside search */
+  .im-mode--header, html.im-dark .im-mode--header {
+    position: static; width: 40px; height: 40px;
+    background: transparent; border: none; box-shadow: none;
+    color: currentColor; display: inline-grid; place-items: center;
+    margin-right: 2px;
+  }
+  .im-mode--header:hover { transform: rotate(18deg) scale(1.1); }
+  html.im-dark .im-mode--header { color: #ffd166; }
 
   /* ---------- DARK MODE palette ---------- */
   html.im-dark { color-scheme: dark; }
@@ -245,6 +254,74 @@
 
   @media (max-width: 749px) { .im-wa { right: 14px; bottom: 14px; } .im-wa__toggle { width: 54px; height: 54px; } }
 
+  /* ============================================================
+     GLASS THEME - red/black gradient + dotted backdrop, glassy UI
+     ============================================================ */
+  html {
+    background:
+      radial-gradient(1000px 560px at 88% -8%, rgba(217, 4, 41, 0.14), transparent 62%),
+      radial-gradient(820px 560px at -8% 108%, rgba(13, 13, 15, 0.14), transparent 58%),
+      linear-gradient(160deg, #fafafb 0%, #f1f2f4 100%) !important;
+    background-attachment: fixed !important;
+  }
+  html.im-dark {
+    background:
+      radial-gradient(1000px 600px at 88% -8%, rgba(217, 4, 41, 0.30), transparent 62%),
+      radial-gradient(820px 600px at -8% 108%, rgba(217, 4, 41, 0.12), transparent 55%),
+      linear-gradient(160deg, #0a0a0b 0%, #121215 55%, #170a0d 100%) !important;
+    background-attachment: fixed !important;
+  }
+  body, html.im-dark body { background: transparent !important; }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image: radial-gradient(rgba(13, 13, 15, 0.10) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+  }
+  html.im-dark body::before {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1.4px);
+  }
+  main .section-background { background: transparent !important; }
+  section[id^="improd-"], section[id^="imtes-"], section[id^="imft-"],
+  section[id^="imab-"], section[id^="imp2-"], section[id^="imfaq-"],
+  section[id^="imbl-"], section[id^="imfg-"], section[id^="imbn-"],
+  section[id^="imcat-"], section[id^="imfp-"],
+  html.im-dark section[id^="improd-"], html.im-dark section[id^="imtes-"],
+  html.im-dark section[id^="imft-"], html.im-dark section[id^="imab-"],
+  html.im-dark section[id^="imp2-"], html.im-dark section[id^="imfaq-"],
+  html.im-dark section[id^="imbl-"], html.im-dark section[id^="imfg-"],
+  html.im-dark section[id^="imbn-"], html.im-dark section[id^="imcat-"],
+  html.im-dark section[id^="imfp-"] { background: transparent !important; }
+  .improd__card, .imtes__card, .imbl__card, [id^="imfaq-"] details,
+  .imcat__card, .imfp__media, .imcd__unit, .imfp__qty, .im-wa__link {
+    background: rgba(255, 255, 255, 0.55) !important;
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px -12px rgba(13, 13, 15, 0.18);
+  }
+  html.im-dark .improd__card, html.im-dark .imtes__card, html.im-dark .imbl__card,
+  html.im-dark [id^="imfaq-"] details, html.im-dark .imcat__card,
+  html.im-dark .imfp__media, html.im-dark .imcd__unit, html.im-dark .imfp__qty,
+  html.im-dark .im-wa__link {
+    background: rgba(23, 24, 28, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    box-shadow: 0 8px 32px -12px rgba(0, 0, 0, 0.55);
+  }
+  html.im-dark .im-wa__link { color: #e6e6e9; }
+  .improd__media { background: rgba(127, 130, 140, 0.10) !important; }
+  #header-group .shopify-section, #header-group .header,
+  html.im-dark #header-group .shopify-section, html.im-dark #header-group .header {
+    background: rgba(10, 10, 12, 0.58) !important;
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  }
+  #header-group .header__row { background: transparent !important; }
+  footer .shopify-section, html.im-dark footer .shopify-section {
+    background: rgba(10, 10, 12, 0.62) !important;
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  }
+
 </style>
 
 {%- assign wa_msg = 'Assalam-o-Alaikum! Mujhe iMobile Accessories se products ke baare mein maloomat chahiye.' | url_encode -%}
@@ -290,6 +367,17 @@
       root.classList.toggle('im-dark', isDark);
       try { localStorage.setItem('im-theme', isDark ? 'dark' : 'light'); } catch (e) {}
     });
+    // Move the toggle into the header, right beside the search icon
+    (function relocateToggle() {
+      if (!modeBtn) return;
+      var searchEl = document.querySelector('search-button') ||
+                     document.querySelector('.header-actions__action') ||
+                     document.querySelector('header button[aria-label*="earch"]');
+      if (searchEl && searchEl.parentElement) {
+        searchEl.parentElement.insertBefore(modeBtn, searchEl);
+        modeBtn.classList.add('im-mode--header');
+      }
+    })();
 
     // ---- WhatsApp toggle ----
     var wa = document.getElementById('im-wa');
