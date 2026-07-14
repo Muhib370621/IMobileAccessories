@@ -16,11 +16,22 @@
     assign url = routes.search_url | append: '?q=' | append: q
   endif
 -%}
+{%- liquid
+  assign fallback_img = blank
+  if coll != empty and coll.products.first.featured_image != blank
+    assign fallback_img = coll.products.first.featured_image
+  else
+    assign pidx = idx | default: 0
+    assign fallback_img = collections.all.products[pidx].featured_image
+  endif
+-%}
 <a class="imbn__card{% if big %} imbn__card--big{% endif %}" href="{{ url }}" {{ block.shopify_attributes }}>
   {%- if block.settings.image != blank -%}
     <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
   {%- elsif coll != empty and coll.featured_image != blank -%}
     <img src="{{ coll.featured_image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+  {%- elsif fallback_img != blank -%}
+    <img src="{{ fallback_img | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
   {%- else -%}
     <span class="imbn__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
   {%- endif -%}

@@ -27,9 +27,20 @@
             assign cellurl = routes.search_url | append: '?q=' | append: q
           endif
         -%}
+        {%- liquid
+          assign fallback_img = blank
+          if coll != empty and coll.products.first.featured_image != blank
+            assign fallback_img = coll.products.first.featured_image
+          else
+            assign pidx = forloop.index0
+            assign fallback_img = collections.all.products[pidx].featured_image
+          endif
+        -%}
         <a class="imst__cell" href="{{ cellurl | default: '#' }}" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+          {%- elsif fallback_img != blank -%}
+            <img src="{{ fallback_img | image_url: width: 500 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
           {%- else -%}
             <span class="imst__ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
           {%- endif -%}

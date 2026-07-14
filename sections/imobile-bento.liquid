@@ -36,13 +36,13 @@
     </div>
     <div class="imbn__grid">
       {%- if b[0] -%}
-        {%- render 'im-bento-card', block: b[0], big: true -%}
+        {%- render 'im-bento-card', block: b[0], big: true, idx: 0 -%}
       {%- endif -%}
       <div class="imbn__right">
-        {%- if b[1] -%}{%- render 'im-bento-card', block: b[1], big: false -%}{%- endif -%}
+        {%- if b[1] -%}{%- render 'im-bento-card', block: b[1], big: false, idx: 1 -%}{%- endif -%}
         <div class="imbn__rbottom">
-          {%- if b[2] -%}{%- render 'im-bento-card', block: b[2], big: false -%}{%- endif -%}
-          {%- if b[3] -%}{%- render 'im-bento-card', block: b[3], big: false -%}{%- endif -%}
+          {%- if b[2] -%}{%- render 'im-bento-card', block: b[2], big: false, idx: 2 -%}{%- endif -%}
+          {%- if b[3] -%}{%- render 'im-bento-card', block: b[3], big: false, idx: 3 -%}{%- endif -%}
         </div>
       </div>
     </div>

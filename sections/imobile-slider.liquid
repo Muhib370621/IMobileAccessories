@@ -1,0 +1,231 @@
+{%- comment -%}
+  iMobile Accessories — Hero product carousel/slider
+  Auto-plays through products (from a chosen collection, or all products).
+  Falls back to branded slides if the store has no products yet.
+{%- endcomment -%}
+{%- liquid
+  assign coll = section.settings.collection
+  if coll != blank and coll.products_count > 0
+    assign slide_products = coll.products
+  else
+    assign slide_products = collections.all.products
+  endif
+  assign wa_msg = 'Assalam-o-Alaikum! Mujhe iMobile Accessories se maloomat chahiye.' | url_encode
+-%}
+<style>
+  #imsl-{{ section.id }} { position:relative; overflow:hidden; background: linear-gradient(135deg, #1a1d24 0%, #2d3645 100%); color:#fff; }
+  #imsl-{{ section.id }} .imsl__viewport { position:relative; min-height: 480px; }
+  #imsl-{{ section.id }} .imsl__slide {
+    position:absolute; inset:0; opacity:0; visibility:hidden; pointer-events:none;
+    transition: opacity .7s cubic-bezier(0.22,1,0.36,1), visibility .7s;
+  }
+  #imsl-{{ section.id }} .imsl__slide.is-active { opacity:1; visibility:visible; pointer-events:auto; position:relative; }
+  #imsl-{{ section.id }} .imsl__inner {
+    max-width: var(--page-width, 1400px); margin-inline:auto; padding: 56px 20px 72px;
+    display:grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items:center; min-height:480px;
+  }
+  #imsl-{{ section.id }} .imsl__eyebrow {
+    display:inline-flex; align-items:center; gap:10px;
+    font-family: var(--font-accent--family, sans-serif); text-transform:uppercase;
+    letter-spacing:.16em; font-size:.74rem; font-weight:700; color:#8fb4ff; margin-bottom:16px;
+  }
+  #imsl-{{ section.id }} .imsl__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.9rem, 4.6vw, 3.3rem); line-height:1.08; margin:0 0 14px; color:#fff; }
+  #imsl-{{ section.id }} .imsl__price { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
+  #imsl-{{ section.id }} .imsl__now { font-family: var(--font-heading--family, sans-serif); font-size:1.6rem; font-weight:700; color:#fff; }
+  #imsl-{{ section.id }} .imsl__was { font-size:1.05rem; color:rgba(255,255,255,.5); text-decoration:line-through; }
+  #imsl-{{ section.id }} .imsl__off { background:#e11d48; color:#fff; font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+  #imsl-{{ section.id }} .imsl__text { color:rgba(255,255,255,.75); max-width:48ch; margin:0 0 26px; line-height:1.6; }
+  #imsl-{{ section.id }} .imsl__cta { display:flex; flex-wrap:wrap; gap:12px; }
+  #imsl-{{ section.id }} .imsl__btn {
+    display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+    font-family: var(--font-accent--family, sans-serif); font-weight:600; font-size:.92rem;
+    padding:14px 28px; border-radius:6px; transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
+  }
+  #imsl-{{ section.id }} .imsl__btn--light { background:#fff; color:#1a1d24; }
+  #imsl-{{ section.id }} .imsl__btn--light:hover { transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(0,0,0,.6); }
+  #imsl-{{ section.id }} .imsl__btn--wa { background:#25D366; color:#fff; }
+  #imsl-{{ section.id }} .imsl__btn--wa:hover { transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(37,211,102,.6); }
+  #imsl-{{ section.id }} .imsl__media { position:relative; display:grid; place-items:center; }
+  #imsl-{{ section.id }} .imsl__media::before {
+    content:""; position:absolute; width:min(420px, 80%); aspect-ratio:1;
+    border-radius:50%; background: radial-gradient(circle, rgba(143,180,255,.28), transparent 68%);
+  }
+  #imsl-{{ section.id }} .imsl__img {
+    position:relative; width:min(400px, 88%); aspect-ratio:1; border-radius:24px; overflow:hidden;
+    background:#252a35; box-shadow: 0 50px 90px -40px rgba(0,0,0,.8);
+  }
+  #imsl-{{ section.id }} .imsl__img img { width:100%; height:100%; object-fit:cover; }
+  #imsl-{{ section.id }} .imsl__img .ph { width:100%; height:100%; display:grid; place-items:center; color:rgba(255,255,255,.35); }
+  #imsl-{{ section.id }} .imsl__img .ph svg { width:38%; }
+  /* entrance animation per slide */
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > * { animation: imslUp .6s cubic-bezier(0.22,1,0.36,1) both; }
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *:nth-child(2){animation-delay:.08s}
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *:nth-child(3){animation-delay:.16s}
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *:nth-child(4){animation-delay:.24s}
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *:nth-child(5){animation-delay:.32s}
+  #imsl-{{ section.id }} .imsl__slide.is-active .imsl__media { animation: imslZoom .8s cubic-bezier(0.22,1,0.36,1) both; }
+  @keyframes imslUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform:none; } }
+  @keyframes imslZoom { from { opacity:0; transform: scale(.92); } to { opacity:1; transform:none; } }
+  /* controls */
+  #imsl-{{ section.id }} .imsl__arrow {
+    position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+    width:46px; height:46px; border-radius:50%; border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.08); color:#fff; display:grid; place-items:center; cursor:pointer;
+    backdrop-filter: blur(6px); transition: background .25s, transform .25s;
+  }
+  #imsl-{{ section.id }} .imsl__arrow:hover { background:rgba(255,255,255,.22); transform:translateY(-50%) scale(1.08); }
+  #imsl-{{ section.id }} .imsl__arrow--prev { left:16px; }
+  #imsl-{{ section.id }} .imsl__arrow--next { right:16px; }
+  #imsl-{{ section.id }} .imsl__arrow svg { width:20px; height:20px; }
+  #imsl-{{ section.id }} .imsl__dots { position:absolute; left:0; right:0; bottom:20px; display:flex; justify-content:center; gap:10px; z-index:5; }
+  #imsl-{{ section.id }} .imsl__dot { width:10px; height:10px; border-radius:999px; border:none; background:rgba(255,255,255,.35); cursor:pointer; padding:0; transition: width .3s cubic-bezier(0.22,1,0.36,1), background .3s; }
+  #imsl-{{ section.id }} .imsl__dot.is-active { width:28px; background:#fff; }
+  @media (max-width: 860px) {
+    #imsl-{{ section.id }} .imsl__inner { grid-template-columns:1fr; gap:24px; padding:40px 20px 76px; min-height:0; text-align:center; }
+    #imsl-{{ section.id }} .imsl__media { order:-1; }
+    #imsl-{{ section.id }} .imsl__img { width:min(280px, 70%); }
+    #imsl-{{ section.id }} .imsl__price, #imsl-{{ section.id }} .imsl__cta { justify-content:center; }
+    #imsl-{{ section.id }} .imsl__arrow { display:none; }
+    #imsl-{{ section.id }} .imsl__text { margin-inline:auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *,
+    #imsl-{{ section.id }} .imsl__slide.is-active .imsl__media { animation:none !important; }
+  }
+</style>
+
+<section id="imsl-{{ section.id }}" class="imsl" data-autoplay="{{ section.settings.autoplay_speed }}">
+  <div class="imsl__viewport">
+    {%- assign slide_count = 0 -%}
+    {%- for product in slide_products limit: section.settings.max_slides -%}
+      {%- liquid
+        assign v = product.selected_or_first_available_variant
+        assign on_sale = false
+        if v.compare_at_price > v.price
+          assign on_sale = true
+          assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+        endif
+        assign slide_count = slide_count | plus: 1
+      -%}
+      <div class="imsl__slide{% if forloop.first %} is-active{% endif %}" data-slide>
+        <div class="imsl__inner">
+          <div class="imsl__content">
+            <span class="imsl__eyebrow">{{ section.settings.eyebrow }}</span>
+            <h2 class="imsl__title">{{ product.title }}</h2>
+            <div class="imsl__price">
+              <span class="imsl__now">{{ v.price | money }}</span>
+              {%- if on_sale -%}
+                <span class="imsl__was">{{ v.compare_at_price | money }}</span>
+                <span class="imsl__off">-{{ pct }}%</span>
+              {%- endif -%}
+            </div>
+            {%- if product.description != blank -%}
+              <p class="imsl__text">{{ product.description | strip_html | truncatewords: 24 }}</p>
+            {%- endif -%}
+            <div class="imsl__cta">
+              <a class="imsl__btn imsl__btn--light" href="{{ product.url }}">{{ section.settings.btn_label }}</a>
+              <a class="imsl__btn imsl__btn--wa" target="_blank" rel="noopener" href="https://wa.me/923152972723?text={{ wa_msg }}">Order on WhatsApp</a>
+            </div>
+          </div>
+          <div class="imsl__media">
+            <div class="imsl__img">
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" width="800" height="800" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}>
+              {%- else -%}
+                <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+
+    {%- if slide_count == 0 -%}
+      <div class="imsl__slide is-active" data-slide>
+        <div class="imsl__inner">
+          <div class="imsl__content">
+            <span class="imsl__eyebrow">iMobile Accessories</span>
+            <h2 class="imsl__title">Premium Mobiles &amp; Accessories in Karachi</h2>
+            <p class="imsl__text">We deal in all mobile phones and accessories — genuine products, best prices, fast delivery.</p>
+            <div class="imsl__cta">
+              <a class="imsl__btn imsl__btn--light" href="{{ routes.all_products_collection_url }}">Shop All</a>
+              <a class="imsl__btn imsl__btn--wa" target="_blank" rel="noopener" href="https://wa.me/923152972723?text={{ wa_msg }}">Order on WhatsApp</a>
+            </div>
+          </div>
+          <div class="imsl__media"><div class="imsl__img"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="7" y="2" width="10" height="20" rx="2.5"/></svg></span></div></div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <button class="imsl__arrow imsl__arrow--prev" type="button" aria-label="Previous slide" data-prev>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="imsl__arrow imsl__arrow--next" type="button" aria-label="Next slide" data-next>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    <div class="imsl__dots" data-dots></div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('imsl-{{ section.id }}');
+      if (!root) return;
+      var slides = root.querySelectorAll('[data-slide]');
+      if (slides.length < 2) { var a = root.querySelectorAll('.imsl__arrow'); a.forEach(function(x){x.style.display='none';}); return; }
+      var dotsWrap = root.querySelector('[data-dots]');
+      var i = 0, timer = null;
+      var speed = (parseInt(root.getAttribute('data-autoplay'), 10) || 5) * 1000;
+      var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      slides.forEach(function (s, idx) {
+        var d = document.createElement('button');
+        d.className = 'imsl__dot' + (idx === 0 ? ' is-active' : '');
+        d.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
+        d.addEventListener('click', function () { go(idx); restart(); });
+        dotsWrap.appendChild(d);
+      });
+      var dots = dotsWrap.querySelectorAll('.imsl__dot');
+
+      function go(n) {
+        slides[i].classList.remove('is-active');
+        dots[i].classList.remove('is-active');
+        i = (n + slides.length) % slides.length;
+        slides[i].classList.add('is-active');
+        dots[i].classList.add('is-active');
+      }
+      function restart() { if (timer) clearInterval(timer); if (motionOk) timer = setInterval(function () { go(i + 1); }, speed); }
+
+      root.querySelector('[data-prev]').addEventListener('click', function () { go(i - 1); restart(); });
+      root.querySelector('[data-next]').addEventListener('click', function () { go(i + 1); restart(); });
+      root.addEventListener('mouseenter', function () { if (timer) clearInterval(timer); });
+      root.addEventListener('mouseleave', restart);
+
+      // touch swipe
+      var sx = null;
+      root.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      root.addEventListener('touchend', function (e) {
+        if (sx === null) return;
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) { go(dx < 0 ? i + 1 : i - 1); restart(); }
+        sx = null;
+      }, { passive: true });
+
+      restart();
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "iMobile Hero Slider",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Featured This Week" },
+    { "type": "collection", "id": "collection", "label": "Products from collection", "info": "Empty = all products" },
+    { "type": "range", "id": "max_slides", "label": "Max slides", "min": 2, "max": 8, "step": 1, "default": 5 },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay (seconds)", "min": 3, "max": 9, "step": 1, "default": 5 },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Buy Now" }
+  ],
+  "presets": [{ "name": "iMobile — Hero Slider" }]
+}
+{% endschema %}
