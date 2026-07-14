@@ -96,12 +96,6 @@
     #imsl-{{ section.id }} .imsl__arrow { display:none; }
     #imsl-{{ section.id }} .imsl__text { margin-inline:auto; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    #imsl-{{ section.id }},
-    #imsl-{{ section.id }} .imsl__media::before,
-    #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *,
-    #imsl-{{ section.id }} .imsl__slide.is-active .imsl__media { animation:none !important; }
-  }
 </style>
 
 <section id="imsl-{{ section.id }}" class="imsl" data-autoplay="{{ section.settings.autoplay_speed }}">

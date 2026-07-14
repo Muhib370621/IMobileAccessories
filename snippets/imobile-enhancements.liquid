@@ -32,8 +32,7 @@
   body, p, a, span, li, input, select, textarea, button { font-family: 'Rajdhani', sans-serif; }
 
   /* ---------- Red/black skin: buttons get gradient + glow ---------- */
-  .button:not(.button-secondary):not(.button-unstyled),
-  button.button:not(.button-secondary),
+  .button:not(.button-secondary):not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"]),
   .shopify-payment-button__button--unbranded,
   .improd__add button,
   .imfp__add {
@@ -43,7 +42,7 @@
     border-color: transparent !important;
     transition: background-position .4s var(--im-ease), transform .25s var(--im-ease), box-shadow .25s var(--im-ease) !important;
   }
-  .button:not(.button-secondary):hover,
+  .button:not(.button-secondary):not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"]):hover,
   .improd__add button:hover,
   .imfp__add:hover {
     background-position: 100% 50% !important;
@@ -118,17 +117,20 @@
     transform: scale(1.07);
   }
 
-  /* ---------- Buttons: lift + shine sweep ---------- */
-  .button, .button-secondary, button.button, .shopify-payment-button__button {
+  /* ---------- Buttons: lift + shine sweep (real buttons only, never unstyled/zoom/qty) ---------- */
+  .button:not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"]),
+  .button-secondary,
+  .shopify-payment-button__button {
     transition: transform 0.25s var(--im-ease), box-shadow 0.25s var(--im-ease), background-color 0.25s var(--im-ease), color 0.25s var(--im-ease) !important;
     position: relative;
     overflow: hidden;
   }
-  .button:hover, .button-secondary:hover, button.button:hover {
+  .button:not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"]):hover,
+  .button-secondary:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 24px -10px rgba(217, 4, 41, 0.55);
   }
-  .button::after {
+  .button:not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"])::after {
     content: "";
     position: absolute; top: 0; left: -120%;
     width: 60%; height: 100%;
@@ -137,7 +139,7 @@
     transition: left 0.6s var(--im-ease);
     pointer-events: none;
   }
-  .button:hover::after { left: 140%; }
+  .button:not(.button-unstyled):not([class*="quantity"]):not([class*="zoom"]):hover::after { left: 140%; }
 
   /* ---------- Nav links: animated underline ---------- */
   .header__menu a, .header__inline-menu a, nav[class*="menu"] a {
@@ -243,16 +245,6 @@
 
   @media (max-width: 749px) { .im-wa { right: 14px; bottom: 14px; } .im-wa__toggle { width: 54px; height: 54px; } }
 
-  @media (prefers-reduced-motion: reduce) {
-    html.imobile-ready body,
-    html.imobile-ready .im-reveal,
-    html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > * {
-      animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important;
-    }
-    .im-wa__toggle { animation: none; }
-    html { scroll-behavior: auto; }
-    ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
-  }
 </style>
 
 {%- assign wa_msg = 'Assalam-o-Alaikum! Mujhe iMobile Accessories se products ke baare mein maloomat chahiye.' | url_encode -%}
@@ -325,7 +317,7 @@
     if (topBtn) topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: motionOk ? 'smooth' : 'auto' }); });
 
     // ---- Scroll reveal (top-level sections, every page) ----
-    if (motionOk && 'IntersectionObserver' in window) {
+    if ('IntersectionObserver' in window) {
       var run = function () {
         var targets = document.querySelectorAll('#MainContent > .shopify-section, .shopify-section.im-reveal-add');
         if (!targets.length) return;

@@ -13,8 +13,8 @@
   #imfp-{{ section.id }} .imfp__eyebrow { font-family: var(--font-accent--family, sans-serif); text-transform:uppercase; letter-spacing:0.16em; font-size:0.72rem; font-weight:700; color:#8a94a6; display:block; margin-bottom:8px; }
   #imfp-{{ section.id }} .imfp__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.5rem,3.5vw,2.3rem); margin:0 0 6px; color:#0d0d0f; }
   #imfp-{{ section.id }} .imfp__sub { margin:0; color:#7a828f; }
-  #imfp-{{ section.id }} .imfp__grid { display:grid; grid-template-columns: 1fr 1fr; gap:44px; align-items:center; }
-  #imfp-{{ section.id }} .imfp__media { border-radius:16px; overflow:hidden; background:#f0f2f5; aspect-ratio:1/1; }
+  #imfp-{{ section.id }} .imfp__grid { display:grid; grid-template-columns: minmax(0, 460px) 1fr; gap:44px; align-items:center; justify-content:center; max-width:1060px; margin-inline:auto; }
+  #imfp-{{ section.id }} .imfp__media { border-radius:16px; overflow:hidden; background:#f0f2f5; aspect-ratio:1/1; width:100%; max-width:460px; }
   #imfp-{{ section.id }} .imfp__media img { width:100%; height:100%; object-fit:cover; }
   #imfp-{{ section.id }} .imfp__ph { width:100%; height:100%; display:grid; place-items:center; color:#c4ccdb; }
   #imfp-{{ section.id }} .imfp__ph svg { width:36%; }
@@ -31,7 +31,9 @@
   #imfp-{{ section.id }} .imfp__qty input::-webkit-outer-spin-button, #imfp-{{ section.id }} .imfp__qty input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
   #imfp-{{ section.id }} .imfp__add { flex:1; min-width:180px; border:none; cursor:pointer; background:#0d0d0f; color:#fff; font-family: var(--font-accent--family, sans-serif); font-weight:600; font-size:0.95rem; padding:14px 22px; border-radius:6px; transition: background .25s, transform .2s; }
   #imfp-{{ section.id }} .imfp__add:hover { background:#d90429; transform: translateY(-2px); }
-  @media (max-width:860px){ #imfp-{{ section.id }} .imfp__grid{ grid-template-columns:1fr; gap:28px; } }
+  @media (max-width:860px){ #imfp-{{ section.id }} .imfp__grid{ grid-template-columns:1fr; gap:28px; } #imfp-{{ section.id }} .imfp__media{ margin-inline:auto; max-width:340px; } }
+  html.im-dark #imfp-{{ section.id }} .imfp__qty { border-color:#26272c; }
+  html.im-dark #imfp-{{ section.id }} .imfp__qty button, html.im-dark #imfp-{{ section.id }} .imfp__qty input { background:#17181c; color:#e6e6e9; }
 </style>
 <section id="imfp-{{ section.id }}">
   <div class="imfp__inner">
