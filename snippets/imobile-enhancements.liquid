@@ -8,12 +8,59 @@
   ever permanently hidden.
 {%- endcomment -%}
 
+{%- comment -%} Robotic font pairing: Orbitron (headings) + Rajdhani (body/UI) {%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root {
     --im-wa-green: #25D366;
     --im-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --im-accent: #2d3645;
+    --im-accent: #d90429;
+    --im-accent-dark: #7a0216;
+    --im-black: #0d0d0f;
+    /* Override theme font variables site-wide (robotic look) */
+    --font-heading--family: 'Orbitron', sans-serif;
+    --font-subheading--family: 'Rajdhani', sans-serif;
+    --font-body--family: 'Rajdhani', sans-serif;
+    --font-accent--family: 'Rajdhani', sans-serif;
+    --font-primary--family: 'Rajdhani', sans-serif;
   }
+  body { font-family: 'Rajdhani', sans-serif; }
+  h1, h2, h3, .h1, .h2, .h3 { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.01em; }
+  body, p, a, span, li, input, select, textarea, button { font-family: 'Rajdhani', sans-serif; }
+
+  /* ---------- Red/black skin: buttons get gradient + glow ---------- */
+  .button:not(.button-secondary):not(.button-unstyled),
+  button.button:not(.button-secondary),
+  .shopify-payment-button__button--unbranded,
+  .improd__add button,
+  .imfp__add {
+    background: linear-gradient(120deg, var(--im-accent) 0%, var(--im-accent-dark) 100%) !important;
+    background-size: 160% 160% !important;
+    color: #fff !important;
+    border-color: transparent !important;
+    transition: background-position .4s var(--im-ease), transform .25s var(--im-ease), box-shadow .25s var(--im-ease) !important;
+  }
+  .button:not(.button-secondary):hover,
+  .improd__add button:hover,
+  .imfp__add:hover {
+    background-position: 100% 50% !important;
+    box-shadow: 0 12px 26px -10px rgba(217, 4, 41, 0.65) !important;
+  }
+  ::selection { background: var(--im-accent); color: #fff; }
+  html { scrollbar-color: var(--im-accent) #16090b; }
+  ::-webkit-scrollbar { width: 11px; }
+  ::-webkit-scrollbar-track { background: #16090b; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--im-accent), var(--im-accent-dark)); border-radius: 8px; }
+
+  /* ---------- Smooth cross-page transitions (modern browsers) ---------- */
+  @view-transition { navigation: auto; }
+  @keyframes imPageOut { to { opacity: 0; transform: translateY(-12px); } }
+  @keyframes imPageIn { from { opacity: 0; transform: translateY(14px); } }
+  ::view-transition-old(root) { animation: imPageOut .28s ease both; }
+  ::view-transition-new(root) { animation: imPageIn .38s var(--im-ease) both; }
 
   html { scroll-behavior: smooth; }
 
@@ -56,7 +103,7 @@
   }
   .product-card:hover, .resource-card:hover, .collection-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 42px -20px rgba(34, 35, 37, 0.32);
+    box-shadow: 0 20px 42px -20px rgba(13, 13, 15, 0.32);
   }
 
   /* ---------- Image zoom on hover (cards + product gallery) ---------- */
@@ -79,7 +126,7 @@
   }
   .button:hover, .button-secondary:hover, button.button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px -10px rgba(45, 54, 69, 0.55);
+    box-shadow: 0 12px 24px -10px rgba(217, 4, 41, 0.55);
   }
   .button::after {
     content: "";
@@ -108,7 +155,7 @@
 
   /* ---------- Sticky header shadow on scroll ---------- */
   .im-scrolled #header-group, .im-scrolled header-component {
-    box-shadow: 0 6px 24px -12px rgba(34, 35, 37, 0.28);
+    box-shadow: 0 6px 24px -12px rgba(13, 13, 15, 0.28);
     transition: box-shadow 0.3s var(--im-ease);
   }
 
@@ -118,7 +165,7 @@
     width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
     background: var(--im-accent); color: #fff; display: grid; place-items: center;
     opacity: 0; visibility: hidden; transform: translateY(12px);
-    box-shadow: 0 10px 24px -10px rgba(34,35,37,0.5);
+    box-shadow: 0 10px 24px -10px rgba(13,13,15,0.5);
     transition: opacity 0.3s var(--im-ease), transform 0.3s var(--im-ease), visibility 0.3s;
   }
   .im-top.im-show { opacity: 1; visibility: visible; transform: none; }
@@ -130,7 +177,7 @@
   .im-wa { position: fixed; right: 20px; bottom: 20px; z-index: 900; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
   .im-wa__panel { display: flex; flex-direction: column; gap: 10px; max-height: 0; overflow: hidden; opacity: 0; transform: translateY(10px) scale(0.96); transform-origin: bottom right; transition: max-height 0.35s var(--im-ease), opacity 0.3s var(--im-ease), transform 0.35s var(--im-ease); pointer-events: none; }
   .im-wa.im-open .im-wa__panel { max-height: 220px; opacity: 1; transform: none; pointer-events: auto; }
-  .im-wa__link { display: flex; align-items: center; gap: 10px; background: #ffffff; color: #222325; text-decoration: none; padding: 10px 16px 10px 12px; border-radius: 999px; font-family: var(--font-body--family, sans-serif); font-size: 0.9rem; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(34, 35, 37, 0.35); white-space: nowrap; animation: imFadeIn 0.4s var(--im-ease) both; }
+  .im-wa__link { display: flex; align-items: center; gap: 10px; background: #ffffff; color: #0d0d0f; text-decoration: none; padding: 10px 16px 10px 12px; border-radius: 999px; font-family: var(--font-body--family, sans-serif); font-size: 0.9rem; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(13, 13, 15, 0.35); white-space: nowrap; animation: imFadeIn 0.4s var(--im-ease) both; }
   .im-wa__link small { display: block; font-weight: 400; font-size: 0.72rem; opacity: 0.65; }
   .im-wa__link .im-wa__dot { width: 34px; height: 34px; flex: 0 0 34px; border-radius: 50%; background: var(--im-wa-green); display: grid; place-items: center; }
   .im-wa__link:hover { transform: translateX(-4px); transition: transform 0.25s var(--im-ease); }
@@ -149,6 +196,7 @@
     }
     .im-wa__toggle { animation: none; }
     html { scroll-behavior: auto; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
   }
 </style>
 

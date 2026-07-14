@@ -3,7 +3,7 @@
 <style>
   #imhero-{{ section.id }} {
     background:
-      radial-gradient(1100px 500px at 88% -10%, rgba(45,54,69,0.10), transparent 60%),
+      radial-gradient(1100px 500px at 88% -10%, rgba(217,4,41,0.10), transparent 60%),
       linear-gradient(180deg, #f6f7f9 0%, #ffffff 100%);
     padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
     overflow: hidden;
@@ -19,9 +19,9 @@
   #imhero-{{ section.id }} .imh__title {
     font-family: var(--font-heading--family, sans-serif);
     font-size: clamp(2rem, 4.6vw, 3.5rem); line-height: 1.08; letter-spacing: -0.02em; font-weight:700;
-    margin: 0 0 18px; color: #222325;
+    margin: 0 0 18px; color: #0d0d0f;
   }
-  #imhero-{{ section.id }} .imh__rotate { color:#2d3645; position:relative; display:inline-block; }
+  #imhero-{{ section.id }} .imh__rotate { color:#d90429; position:relative; display:inline-block; }
   #imhero-{{ section.id }} .imh__rotate::after { content:""; display:inline-block; }
   #imhero-{{ section.id }} .imh__text { font-size: 1.05rem; line-height: 1.6; color: #5a6472; margin: 0 0 30px; max-width: 46ch; }
   #imhero-{{ section.id }} .imh__cta { display: flex; flex-wrap: wrap; gap: 14px; }
@@ -31,22 +31,22 @@
     font-size: 0.92rem; font-weight: 600; padding: 14px 28px; border-radius: 6px;
     transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, background 0.25s, color .25s;
   }
-  #imhero-{{ section.id }} .imh__btn--primary { background: #2d3645; color: #fff; }
-  #imhero-{{ section.id }} .imh__btn--primary:hover { transform: translateY(-3px); background: #222325; box-shadow:0 14px 30px -12px rgba(34,35,37,0.6); }
+  #imhero-{{ section.id }} .imh__btn--primary { background: #d90429; color: #fff; }
+  #imhero-{{ section.id }} .imh__btn--primary:hover { transform: translateY(-3px); background: #0d0d0f; box-shadow:0 14px 30px -12px rgba(13,13,15,0.6); }
   #imhero-{{ section.id }} .imh__btn--wa { background: #25D366; color: #fff; }
   #imhero-{{ section.id }} .imh__btn--wa:hover { transform: translateY(-3px); box-shadow:0 14px 30px -12px rgba(37,211,102,0.6); }
-  #imhero-{{ section.id }} .imh__btn--ghost { background: #fff; color: #222325; border: 1.5px solid #d7dbe2; }
-  #imhero-{{ section.id }} .imh__btn--ghost:hover { transform: translateY(-3px); border-color:#222325; }
+  #imhero-{{ section.id }} .imh__btn--ghost { background: #fff; color: #0d0d0f; border: 1.5px solid #d7dbe2; }
+  #imhero-{{ section.id }} .imh__btn--ghost:hover { transform: translateY(-3px); border-color:#0d0d0f; }
   #imhero-{{ section.id }} .imh__media { position: relative; }
   #imhero-{{ section.id }} .imh__media img { width: 100%; height: auto; display: block; border-radius: 18px; }
   #imhero-{{ section.id }} .imh__ph {
     aspect-ratio: 5/4; border-radius: 18px;
-    background: linear-gradient(135deg, #2d3645, #222325);
-    display: grid; place-items: center; color: #ffffff; box-shadow: 0 40px 80px -40px rgba(34,35,37,0.6);
+    background: linear-gradient(135deg, #d90429, #0d0d0f);
+    display: grid; place-items: center; color: #ffffff; box-shadow: 0 40px 80px -40px rgba(13,13,15,0.6);
   }
   #imhero-{{ section.id }} .imh__ph svg { width: 44%; height: auto; opacity: 0.9; }
   #imhero-{{ section.id }} .imh__stats { display: flex; gap: 30px; margin-top: 34px; flex-wrap: wrap; }
-  #imhero-{{ section.id }} .imh__stat b { display:block; font-family: var(--font-heading--family, sans-serif); font-size: 1.5rem; color:#222325; line-height:1; }
+  #imhero-{{ section.id }} .imh__stat b { display:block; font-family: var(--font-heading--family, sans-serif); font-size: 1.5rem; color:#0d0d0f; line-height:1; }
   #imhero-{{ section.id }} .imh__stat span { font-size: 0.8rem; color:#7a828f; }
   @media (max-width: 860px) {
     #imhero-{{ section.id }} .imh__inner { grid-template-columns: 1fr; gap: 30px; }

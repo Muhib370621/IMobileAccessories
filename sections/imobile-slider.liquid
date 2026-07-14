@@ -13,7 +13,13 @@
   assign wa_msg = 'Assalam-o-Alaikum! Mujhe iMobile Accessories se maloomat chahiye.' | url_encode
 -%}
 <style>
-  #imsl-{{ section.id }} { position:relative; overflow:hidden; background: linear-gradient(135deg, #1a1d24 0%, #2d3645 100%); color:#fff; }
+  #imsl-{{ section.id }} {
+    position:relative; overflow:hidden; color:#fff;
+    background: linear-gradient(120deg, #0a0a0b 0%, #2a060c 35%, #d90429 70%, #0a0a0b 100%);
+    background-size: 300% 300%;
+    animation: imslBg 12s ease-in-out infinite;
+  }
+  @keyframes imslBg { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
   #imsl-{{ section.id }} .imsl__viewport { position:relative; min-height: 480px; }
   #imsl-{{ section.id }} .imsl__slide {
     position:absolute; inset:0; opacity:0; visibility:hidden; pointer-events:none;
@@ -27,7 +33,7 @@
   #imsl-{{ section.id }} .imsl__eyebrow {
     display:inline-flex; align-items:center; gap:10px;
     font-family: var(--font-accent--family, sans-serif); text-transform:uppercase;
-    letter-spacing:.16em; font-size:.74rem; font-weight:700; color:#8fb4ff; margin-bottom:16px;
+    letter-spacing:.16em; font-size:.74rem; font-weight:700; color:#ff5a5f; margin-bottom:16px;
   }
   #imsl-{{ section.id }} .imsl__title { font-family: var(--font-heading--family, sans-serif); font-size: clamp(1.9rem, 4.6vw, 3.3rem); line-height:1.08; margin:0 0 14px; color:#fff; }
   #imsl-{{ section.id }} .imsl__price { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
@@ -41,18 +47,20 @@
     font-family: var(--font-accent--family, sans-serif); font-weight:600; font-size:.92rem;
     padding:14px 28px; border-radius:6px; transition: transform .25s cubic-bezier(0.22,1,0.36,1), box-shadow .25s;
   }
-  #imsl-{{ section.id }} .imsl__btn--light { background:#fff; color:#1a1d24; }
+  #imsl-{{ section.id }} .imsl__btn--light { background:#fff; color:#0a0a0b; }
   #imsl-{{ section.id }} .imsl__btn--light:hover { transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(0,0,0,.6); }
   #imsl-{{ section.id }} .imsl__btn--wa { background:#25D366; color:#fff; }
   #imsl-{{ section.id }} .imsl__btn--wa:hover { transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(37,211,102,.6); }
   #imsl-{{ section.id }} .imsl__media { position:relative; display:grid; place-items:center; }
   #imsl-{{ section.id }} .imsl__media::before {
     content:""; position:absolute; width:min(420px, 80%); aspect-ratio:1;
-    border-radius:50%; background: radial-gradient(circle, rgba(143,180,255,.28), transparent 68%);
+    border-radius:50%; background: radial-gradient(circle, rgba(255,90,95,.35), transparent 68%);
+    animation: imslGlow 3.2s ease-in-out infinite;
   }
+  @keyframes imslGlow { 0%,100% { transform: scale(1); opacity:.8; } 50% { transform: scale(1.08); opacity:1; } }
   #imsl-{{ section.id }} .imsl__img {
     position:relative; width:min(400px, 88%); aspect-ratio:1; border-radius:24px; overflow:hidden;
-    background:#252a35; box-shadow: 0 50px 90px -40px rgba(0,0,0,.8);
+    background:#16090b; box-shadow: 0 50px 90px -40px rgba(0,0,0,.8);
   }
   #imsl-{{ section.id }} .imsl__img img { width:100%; height:100%; object-fit:cover; }
   #imsl-{{ section.id }} .imsl__img .ph { width:100%; height:100%; display:grid; place-items:center; color:rgba(255,255,255,.35); }
@@ -89,6 +97,8 @@
     #imsl-{{ section.id }} .imsl__text { margin-inline:auto; }
   }
   @media (prefers-reduced-motion: reduce) {
+    #imsl-{{ section.id }},
+    #imsl-{{ section.id }} .imsl__media::before,
     #imsl-{{ section.id }} .imsl__slide.is-active .imsl__content > *,
     #imsl-{{ section.id }} .imsl__slide.is-active .imsl__media { animation:none !important; }
   }
