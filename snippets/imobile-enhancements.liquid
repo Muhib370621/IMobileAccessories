@@ -171,7 +171,62 @@
   .im-top.im-show { opacity: 1; visibility: visible; transform: none; }
   .im-top:hover { transform: translateY(-3px); }
   .im-top svg { width: 20px; height: 20px; }
-  @media (max-width: 749px) { .im-top { left: 14px; bottom: 78px; width: 42px; height: 42px; } }
+  .im-top { bottom: 76px; }
+  @media (max-width: 749px) { .im-top { left: 14px; bottom: 124px; width: 42px; height: 42px; } }
+
+  /* ---------- Light/Dark mode toggle ---------- */
+  .im-mode {
+    position: fixed; left: 20px; bottom: 20px; z-index: 890;
+    width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+    border: 1.5px solid rgba(127,127,132,.35);
+    background: #fff; color: #0d0d0f; display: grid; place-items: center;
+    box-shadow: 0 10px 24px -10px rgba(13,13,15,.4);
+    transition: transform .25s var(--im-ease), background .3s, color .3s;
+  }
+  .im-mode:hover { transform: translateY(-3px) rotate(12deg); }
+  .im-mode svg { width: 21px; height: 21px; }
+  .im-mode .ic-sun { display: none; }
+  html.im-dark .im-mode { background: #17181c; color: #ffd166; border-color: #2c2d33; }
+  html.im-dark .im-mode .ic-sun { display: block; }
+  html.im-dark .im-mode .ic-moon { display: none; }
+  @media (max-width: 749px) { .im-mode { left: 14px; bottom: 70px; width: 42px; height: 42px; } }
+
+  /* ---------- DARK MODE palette ---------- */
+  html.im-dark { color-scheme: dark; }
+  html.im-dark body { background: #0d0d0f; color: #dfe1e6; }
+  html.im-dark .shopify-section, html.im-dark [class*="color-scheme"], html.im-dark [class*="color-"] {
+    --color-background: #0d0d0f;
+    --color-foreground: #dfe1e6;
+    --color-foreground-heading: #ffffff;
+    --color-border: #26272c;
+  }
+  html.im-dark section[id^="improd-"], html.im-dark section[id^="imtes-"],
+  html.im-dark section[id^="imft-"], html.im-dark section[id^="imab-"],
+  html.im-dark section[id^="imp2-"], html.im-dark section[id^="imfaq-"],
+  html.im-dark section[id^="imbl-"], html.im-dark section[id^="imfg-"],
+  html.im-dark section[id^="imbn-"], html.im-dark section[id^="imcat-"],
+  html.im-dark section[id^="imfp-"] { background: #0f1013 !important; }
+  html.im-dark .improd__card, html.im-dark .imtes__card, html.im-dark .imbl__card,
+  html.im-dark [id^="imfaq-"] details, html.im-dark .imcat__card, html.im-dark .imfp__media {
+    background: #17181c !important; border-color: #26272c !important;
+  }
+  html.im-dark .improd__media { background: #1c1d22 !important; }
+  html.im-dark .improd__title, html.im-dark .improd__name, html.im-dark .improd__now,
+  html.im-dark .imtes__title, html.im-dark .imtes__name,
+  html.im-dark .imft__title, html.im-dark .imft__ftitle,
+  html.im-dark .imab__title, html.im-dark .imfaq__title, html.im-dark [id^="imfaq-"] summary,
+  html.im-dark .imbl__title, html.im-dark .imbl__ptitle, html.im-dark .imfg__title,
+  html.im-dark .imbn__title, html.im-dark .imcat__title, html.im-dark .imcat__name,
+  html.im-dark .imfp__title, html.im-dark .imfp__pname, html.im-dark .imfp__now,
+  html.im-dark .im-empty__title { color: #f3f3f5 !important; }
+  html.im-dark .imtes__quote, html.im-dark .imft__ftext, html.im-dark .imab__text,
+  html.im-dark .imfaq__ans, html.im-dark .imfaq__sub, html.im-dark .imbl__excerpt,
+  html.im-dark .imbn__sub, html.im-dark .imfp__desc, html.im-dark .imfp__sub,
+  html.im-dark .im-empty__text { color: #a7abb4 !important; }
+  html.im-dark .imft__ic { background: #202128 !important; color: #ff5a5f !important; }
+  html.im-dark .imft__col { border-top-color: #26272c !important; }
+  html.im-dark [id^="imfaq-"] .imfaq__plus::before, html.im-dark [id^="imfaq-"] .imfaq__plus::after { background: #ff5a5f; }
+  html.im-dark .im-empty__art rect, html.im-dark .im-empty__art path:not([fill="#d90429"]) { opacity: .85; }
 
   /* ---------- Floating WhatsApp ---------- */
   .im-wa { position: fixed; right: 20px; bottom: 20px; z-index: 900; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
@@ -217,6 +272,11 @@
   </button>
 </div>
 
+<button class="im-mode" id="im-mode" type="button" aria-label="Toggle light/dark mode">
+  <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+  <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+</button>
+
 <button class="im-top" id="im-top" type="button" aria-label="Back to top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
@@ -226,6 +286,18 @@
     var root = document.documentElement;
     root.classList.add('imobile-ready');
     var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- Light/Dark mode ----
+    var modeBtn = document.getElementById('im-mode');
+    var savedMode = null;
+    try { savedMode = localStorage.getItem('im-theme'); } catch (e) {}
+    var isDark = savedMode ? savedMode === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.classList.toggle('im-dark', isDark);
+    if (modeBtn) modeBtn.addEventListener('click', function () {
+      isDark = !isDark;
+      root.classList.toggle('im-dark', isDark);
+      try { localStorage.setItem('im-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+    });
 
     // ---- WhatsApp toggle ----
     var wa = document.getElementById('im-wa');

@@ -100,7 +100,7 @@
           </div>
         </div>
       {%- else -%}
-        <p style="opacity:.6">No products yet. Add products to your store to see them here.</p>
+        {% render 'im-empty-state', title: 'No Products Found', text: 'This category is empty right now — new stock is on the way. Browse everything or ask us directly.' %}
       {%- endfor -%}
     </div>
   </div>

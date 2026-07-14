@@ -184,8 +184,7 @@
       if (slides.length < 2) { var a = root.querySelectorAll('.imsl__arrow'); a.forEach(function(x){x.style.display='none';}); return; }
       var dotsWrap = root.querySelector('[data-dots]');
       var i = 0, timer = null;
-      var speed = (parseInt(root.getAttribute('data-autoplay'), 10) || 5) * 1000;
-      var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var speed = (parseInt(root.getAttribute('data-autoplay'), 10) || 4) * 1000;
 
       slides.forEach(function (s, idx) {
         var d = document.createElement('button');
@@ -203,7 +202,7 @@
         slides[i].classList.add('is-active');
         dots[i].classList.add('is-active');
       }
-      function restart() { if (timer) clearInterval(timer); if (motionOk) timer = setInterval(function () { go(i + 1); }, speed); }
+      function restart() { if (timer) clearInterval(timer); timer = setInterval(function () { go(i + 1); }, speed); }
 
       root.querySelector('[data-prev]').addEventListener('click', function () { go(i - 1); restart(); });
       root.querySelector('[data-next]').addEventListener('click', function () { go(i + 1); restart(); });

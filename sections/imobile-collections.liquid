@@ -51,7 +51,7 @@
           </span>
         </a>
       {%- else -%}
-        <p style="opacity:.6">Create collections in Shopify admin to feature them here.</p>
+        {% render 'im-empty-state', title: 'No Collections Yet', text: 'Collections will appear here once they are created in the store.' %}
       {%- endfor -%}
     </div>
   </div>
