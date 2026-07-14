@@ -15,7 +15,19 @@
   <div class="imst__inner">
     <div class="imst__grid">
       {%- for block in section.blocks -%}
-        <a class="imst__cell" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+        {%- liquid
+          assign handle = block.settings.caption | handleize
+          assign coll = collections[handle]
+          if coll != empty
+            assign cellurl = coll.url
+          elsif block.settings.link != blank and block.settings.link != '/collections/all'
+            assign cellurl = block.settings.link
+          else
+            assign q = block.settings.caption | url_encode
+            assign cellurl = routes.search_url | append: '?q=' | append: q
+          endif
+        -%}
+        <a class="imst__cell" href="{{ cellurl | default: '#' }}" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
           {%- else -%}

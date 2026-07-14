@@ -1,167 +1,152 @@
 {%- comment -%}
-  iMobile Accessories — global enhancements
+  iMobile Accessories — global enhancements (loads on EVERY page)
   - Floating WhatsApp contact (both numbers)
-  - Lightweight, elegant animations (scroll reveal, fade/slide, hover, image zoom)
-  - Smooth scrolling + page load fade
-  All animations are progressive-enhancement: they only activate once JS adds
-  `imobile-ready` to <html>, so if JS fails nothing is ever hidden.
+  - Rich, elegant animations: scroll reveal + stagger, hover, image zoom,
+    button shine, sticky-header shadow, nav underline, back-to-top, page fade
+  Progressive-enhancement: animations only activate once JS adds `imobile-ready`
+  to <html>, and a safety timer reveals everything after 2.5s so nothing is
+  ever permanently hidden.
 {%- endcomment -%}
 
 <style>
   :root {
     --im-wa-green: #25D366;
     --im-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --im-accent: #2d3645;
   }
 
   html { scroll-behavior: smooth; }
 
   /* ---------- Page load fade ---------- */
-  html.imobile-ready body { animation: imFadeIn 0.6s var(--im-ease) both; }
+  html.imobile-ready body { animation: imFadeIn 0.5s var(--im-ease) both; }
   @keyframes imFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* ---------- Scroll reveal (sections) ---------- */
   html.imobile-ready .im-reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s var(--im-ease), transform 0.7s var(--im-ease);
+    transform: translateY(30px);
+    transition: opacity 0.75s var(--im-ease), transform 0.75s var(--im-ease);
     will-change: opacity, transform;
   }
-  html.imobile-ready .im-reveal.im-in {
-    opacity: 1;
-    transform: none;
-  }
+  html.imobile-ready .im-reveal.im-in { opacity: 1; transform: none; }
 
-  /* ---------- Premium hover: product & collection cards ---------- */
-  .product-card,
-  .card-gallery,
-  .resource-card,
-  .collection-card {
+  /* ---------- Staggered pop for grid items inside a revealed section ---------- */
+  html.imobile-ready .im-reveal.im-in :is(
+    .product-grid, .product-list__grid, ul[class*="product-grid"],
+    .improd__grid, .imcat__grid, .imbn__grid, .imbn__right, .imtes__grid,
+    .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid
+  ) > * {
+    animation: imPop 0.55s var(--im-ease) both;
+  }
+  @keyframes imPop { from { opacity: 0; transform: translateY(22px) scale(0.98); } to { opacity: 1; transform: none; } }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(1) { animation-delay: 0.04s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(2) { animation-delay: 0.10s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(3) { animation-delay: 0.16s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(4) { animation-delay: 0.22s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(5) { animation-delay: 0.28s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > *:nth-child(6) { animation-delay: 0.34s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imcol__grid) > *:nth-child(7) { animation-delay: 0.40s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imcol__grid) > *:nth-child(8) { animation-delay: 0.46s; }
+  html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imcol__grid) > *:nth-child(n+9) { animation-delay: 0.52s; }
+
+  /* ---------- Premium hover: cards everywhere (incl. collection page) ---------- */
+  .product-card, .card-gallery, .resource-card, .collection-card,
+  .product-grid > li, .product-grid > div {
     transition: transform 0.4s var(--im-ease), box-shadow 0.4s var(--im-ease);
   }
-  .product-card:hover,
-  .resource-card:hover,
-  .collection-card:hover {
+  .product-card:hover, .resource-card:hover, .collection-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 18px 40px -18px rgba(11, 30, 61, 0.35);
+    box-shadow: 0 20px 42px -20px rgba(34, 35, 37, 0.32);
   }
 
-  /* ---------- Image zoom on hover ---------- */
-  .product-card .media img,
-  .card-gallery .media img,
-  .resource-card .media img,
-  .collection-card img,
-  .product-media img {
-    transition: transform 0.6s var(--im-ease);
+  /* ---------- Image zoom on hover (cards + product gallery) ---------- */
+  .product-card .media img, .card-gallery .media img, .resource-card .media img,
+  .collection-card img, .product-media img, .product-media-container img,
+  [class*="media-gallery"] img {
+    transition: transform 0.65s var(--im-ease);
   }
-  .product-card:hover .media img,
-  .card-gallery:hover .media img,
-  .resource-card:hover .media img,
-  .collection-card:hover img {
-    transform: scale(1.06);
+  .product-card:hover .media img, .card-gallery:hover .media img,
+  .resource-card:hover .media img, .collection-card:hover img,
+  .product-media-container:hover img, [class*="media-gallery"] .media:hover img {
+    transform: scale(1.07);
   }
 
-  /* ---------- Button hover lift ---------- */
-  .button,
-  .button-secondary,
-  button.button {
+  /* ---------- Buttons: lift + shine sweep ---------- */
+  .button, .button-secondary, button.button, .shopify-payment-button__button {
     transition: transform 0.25s var(--im-ease), box-shadow 0.25s var(--im-ease), background-color 0.25s var(--im-ease), color 0.25s var(--im-ease) !important;
-  }
-  .button:hover,
-  .button-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 22px -10px rgba(0, 153, 230, 0.6);
-  }
-
-  /* ---------- Floating WhatsApp ---------- */
-  .im-wa {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 900;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 12px;
-  }
-  .im-wa__panel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 0;
+    position: relative;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(10px) scale(0.96);
-    transform-origin: bottom right;
-    transition: max-height 0.35s var(--im-ease), opacity 0.3s var(--im-ease), transform 0.35s var(--im-ease);
+  }
+  .button:hover, .button-secondary:hover, button.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -10px rgba(45, 54, 69, 0.55);
+  }
+  .button::after {
+    content: "";
+    position: absolute; top: 0; left: -120%;
+    width: 60%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s var(--im-ease);
     pointer-events: none;
   }
-  .im-wa.im-open .im-wa__panel {
-    max-height: 220px;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
+  .button:hover::after { left: 140%; }
+
+  /* ---------- Nav links: animated underline ---------- */
+  .header__menu a, .header__inline-menu a, nav[class*="menu"] a {
+    position: relative;
   }
-  .im-wa__link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #ffffff;
-    color: #222325;
-    text-decoration: none;
-    padding: 10px 16px 10px 12px;
-    border-radius: 999px;
-    font-family: var(--font-body--family, sans-serif);
-    font-size: 0.9rem;
-    font-weight: 600;
-    box-shadow: 0 10px 30px -8px rgba(11, 30, 61, 0.35);
-    white-space: nowrap;
-    animation: imFadeIn 0.4s var(--im-ease) both;
+  .header__menu a::after, .header__inline-menu a::after {
+    content: ""; position: absolute; left: 0; bottom: -2px;
+    width: 100%; height: 1.5px; background: currentColor;
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.35s var(--im-ease);
   }
-  .im-wa__link small {
-    display: block;
-    font-weight: 400;
-    font-size: 0.72rem;
-    opacity: 0.65;
-  }
-  .im-wa__link .im-wa__dot {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    border-radius: 50%;
-    background: var(--im-wa-green);
-    display: grid;
-    place-items: center;
-  }
-  .im-wa__link:hover { transform: translateX(-4px); transition: transform 0.25s var(--im-ease); }
-  .im-wa__toggle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    background: var(--im-wa-green);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.6);
-    animation: imPulse 2.6s ease-in-out infinite;
-    transition: transform 0.3s var(--im-ease);
-  }
-  .im-wa__toggle:hover { transform: scale(1.08); }
-  .im-wa.im-open .im-wa__toggle { animation: none; }
-  @keyframes imPulse {
-    0%, 100% { box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.55), 0 0 0 0 rgba(37, 211, 102, 0.5); }
-    50% { box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.55), 0 0 0 14px rgba(37, 211, 102, 0); }
+  .header__menu a:hover::after, .header__inline-menu a:hover::after {
+    transform: scaleX(1); transform-origin: left;
   }
 
-  @media (max-width: 749px) {
-    .im-wa { right: 14px; bottom: 14px; }
-    .im-wa__toggle { width: 54px; height: 54px; }
+  /* ---------- Sticky header shadow on scroll ---------- */
+  .im-scrolled #header-group, .im-scrolled header-component {
+    box-shadow: 0 6px 24px -12px rgba(34, 35, 37, 0.28);
+    transition: box-shadow 0.3s var(--im-ease);
   }
+
+  /* ---------- Back to top ---------- */
+  .im-top {
+    position: fixed; left: 20px; bottom: 20px; z-index: 890;
+    width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
+    background: var(--im-accent); color: #fff; display: grid; place-items: center;
+    opacity: 0; visibility: hidden; transform: translateY(12px);
+    box-shadow: 0 10px 24px -10px rgba(34,35,37,0.5);
+    transition: opacity 0.3s var(--im-ease), transform 0.3s var(--im-ease), visibility 0.3s;
+  }
+  .im-top.im-show { opacity: 1; visibility: visible; transform: none; }
+  .im-top:hover { transform: translateY(-3px); }
+  .im-top svg { width: 20px; height: 20px; }
+  @media (max-width: 749px) { .im-top { left: 14px; bottom: 78px; width: 42px; height: 42px; } }
+
+  /* ---------- Floating WhatsApp ---------- */
+  .im-wa { position: fixed; right: 20px; bottom: 20px; z-index: 900; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .im-wa__panel { display: flex; flex-direction: column; gap: 10px; max-height: 0; overflow: hidden; opacity: 0; transform: translateY(10px) scale(0.96); transform-origin: bottom right; transition: max-height 0.35s var(--im-ease), opacity 0.3s var(--im-ease), transform 0.35s var(--im-ease); pointer-events: none; }
+  .im-wa.im-open .im-wa__panel { max-height: 220px; opacity: 1; transform: none; pointer-events: auto; }
+  .im-wa__link { display: flex; align-items: center; gap: 10px; background: #ffffff; color: #222325; text-decoration: none; padding: 10px 16px 10px 12px; border-radius: 999px; font-family: var(--font-body--family, sans-serif); font-size: 0.9rem; font-weight: 600; box-shadow: 0 10px 30px -8px rgba(34, 35, 37, 0.35); white-space: nowrap; animation: imFadeIn 0.4s var(--im-ease) both; }
+  .im-wa__link small { display: block; font-weight: 400; font-size: 0.72rem; opacity: 0.65; }
+  .im-wa__link .im-wa__dot { width: 34px; height: 34px; flex: 0 0 34px; border-radius: 50%; background: var(--im-wa-green); display: grid; place-items: center; }
+  .im-wa__link:hover { transform: translateX(-4px); transition: transform 0.25s var(--im-ease); }
+  .im-wa__toggle { width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; background: var(--im-wa-green); color: #fff; display: grid; place-items: center; box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.6); animation: imPulse 2.6s ease-in-out infinite; transition: transform 0.3s var(--im-ease); }
+  .im-wa__toggle:hover { transform: scale(1.08); }
+  .im-wa.im-open .im-wa__toggle { animation: none; }
+  @keyframes imPulse { 0%, 100% { box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.55), 0 0 0 0 rgba(37, 211, 102, 0.5); } 50% { box-shadow: 0 12px 30px -6px rgba(37, 211, 102, 0.55), 0 0 0 14px rgba(37, 211, 102, 0); } }
+
+  @media (max-width: 749px) { .im-wa { right: 14px; bottom: 14px; } .im-wa__toggle { width: 54px; height: 54px; } }
 
   @media (prefers-reduced-motion: reduce) {
     html.imobile-ready body,
-    html.imobile-ready .im-reveal { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
+    html.imobile-ready .im-reveal,
+    html.imobile-ready .im-reveal.im-in :is(.product-grid, .improd__grid, .imcat__grid, .imbn__grid, .imtes__grid, .imft__grid, .imfg__grid, .imst__grid, .imcol__grid, .imtrust__grid) > * {
+      animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important;
+    }
     .im-wa__toggle { animation: none; }
     html { scroll-behavior: auto; }
   }
@@ -184,12 +169,17 @@
   </button>
 </div>
 
+<button class="im-top" id="im-top" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
 <script>
   (function () {
     var root = document.documentElement;
     root.classList.add('imobile-ready');
+    var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // WhatsApp toggle
+    // ---- WhatsApp toggle ----
     var wa = document.getElementById('im-wa');
     var toggle = document.getElementById('im-wa-toggle');
     if (wa && toggle) {
@@ -199,36 +189,41 @@
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
       document.addEventListener('click', function (e) {
-        if (!wa.contains(e.target)) {
-          wa.classList.remove('im-open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
+        if (!wa.contains(e.target)) { wa.classList.remove('im-open'); toggle.setAttribute('aria-expanded', 'false'); }
       });
     }
 
-    // Scroll reveal for sections
-    var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // ---- Back to top + sticky header shadow ----
+    var topBtn = document.getElementById('im-top');
+    function onScroll() {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      if (topBtn) topBtn.classList.toggle('im-show', y > 500);
+      root.classList.toggle('im-scrolled', y > 20);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    if (topBtn) topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: motionOk ? 'smooth' : 'auto' }); });
+
+    // ---- Scroll reveal (top-level sections, every page) ----
     if (motionOk && 'IntersectionObserver' in window) {
       var run = function () {
-        var seen = [];
-        // Only reveal top-level sections to avoid double-hiding nested content
-        document.querySelectorAll('#MainContent > .shopify-section').forEach(function (el) {
-          el.classList.add('im-reveal');
-          seen.push(el);
-        });
-        if (!seen.length) return;
+        var targets = document.querySelectorAll('#MainContent > .shopify-section, .shopify-section.im-reveal-add');
+        if (!targets.length) return;
         var io = new IntersectionObserver(function (entries, obs) {
           entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('im-in');
-              obs.unobserve(entry.target);
-            }
+            if (entry.isIntersecting) { entry.target.classList.add('im-in'); obs.unobserve(entry.target); }
           });
-        }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-        seen.forEach(function (el) { io.observe(el); });
+        }, { threshold: 0.06, rootMargin: '0px 0px -6% 0px' });
+        targets.forEach(function (el) { el.classList.add('im-reveal'); io.observe(el); });
+        // Safety net: never leave anything hidden
+        setTimeout(function () {
+          document.querySelectorAll('.im-reveal:not(.im-in)').forEach(function (el) { el.classList.add('im-in'); });
+        }, 2500);
       };
       if (document.readyState !== 'loading') run();
       else document.addEventListener('DOMContentLoaded', run);
+      // Re-run after Shopify section re-renders (filters, pagination)
+      document.addEventListener('shopify:section:load', run);
     }
   })();
 </script>
