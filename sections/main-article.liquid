@@ -1,0 +1,16 @@
+{%- comment -%} Article {%- endcomment -%}
+<article class="section">
+  <div class="container" style="max-width:780px">
+    <div class="collection-hero reveal">
+      <span class="eyebrow">{{ article.published_at | date: '%d %b %Y' }}</span>
+      <h1 class="mt-0">{{ article.title }}</h1>
+      {%- if article.author != blank -%}<p style="color:#6a7280">By {{ article.author }}</p>{%- endif -%}
+    </div>
+    {%- if article.image -%}<img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" style="border-radius:var(--card-radius);margin-bottom:28px">{%- endif -%}
+    <div class="rte reveal" style="line-height:1.8">{{ article.content }}</div>
+    <div style="margin-top:32px"><a class="btn btn--outline" href="{{ blog.url }}">← Back to {{ blog.title }}</a></div>
+  </div>
+</article>
+{% schema %}
+{ "name": "Article", "settings": [] }
+{% endschema %}

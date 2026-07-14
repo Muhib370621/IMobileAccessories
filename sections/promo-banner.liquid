@@ -1,0 +1,32 @@
+{%- comment -%} Promo banner {%- endcomment -%}
+{%- assign tags = section.settings.tags | split: ',' -%}
+<section class="section reveal">
+  <div class="container">
+    <div style="position:relative;overflow:hidden;border-radius:var(--card-radius);padding:56px 40px;background:linear-gradient(120deg,var(--accent),var(--heading));color:#fff">
+      {%- if section.settings.badge != blank -%}<span style="display:inline-block;background:#e11d48;padding:5px 14px;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:14px">{{ section.settings.badge }}</span>{%- endif -%}
+      <h2 style="color:#fff;max-width:22ch">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p style="opacity:.85;max-width:56ch">{{ section.settings.text }}</p>{%- endif -%}
+      {%- if section.settings.btn_label != blank -%}<a class="btn" style="background:#fff;color:var(--heading);margin-top:8px" href="{{ section.settings.btn_link | default: routes.all_products_collection_url }}">{{ section.settings.btn_label }}</a>{%- endif -%}
+      {%- if tags.size > 0 and section.settings.show_tags -%}
+        <div style="display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,.16)">
+          {%- for t in tags -%}{%- assign tag = t | strip -%}{%- if tag != blank -%}<span style="display:inline-flex;align-items:center;gap:8px;font-size:.9rem">{% render 'icon', name: 'shield', size: 18 %} {{ tag }}</span>{%- endif -%}{%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Promo Banner",
+  "settings": [
+    { "type": "text", "id": "badge", "label": "Badge", "default": "Protection First" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Keep Your Device Safe in Style" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Durable covers, screen protectors and cases built to handle everyday wear — without compromising on style." },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Shop Protection" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "checkbox", "id": "show_tags", "label": "Show tags", "default": true },
+    { "type": "text", "id": "tags", "label": "Tags (comma separated)", "default": "Durable, Slim Fit, Lightweight, Stylish" }
+  ],
+  "presets": [{ "name": "Promo Banner" }]
+}
+{% endschema %}

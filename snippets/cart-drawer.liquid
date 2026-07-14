@@ -1,0 +1,24 @@
+{%- comment -%} Slide-out cart drawer + shared overlay + mobile nav container {%- endcomment -%}
+<div class="overlay" id="overlay"></div>
+
+<aside class="drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+  <div class="drawer__head">
+    <strong>{{ 'cart.title' | t }}</strong>
+    <button class="header__icon" data-nav-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close', size: 22 %}</button>
+  </div>
+  <div class="drawer__body" data-drawer-items>
+    <p class="empty">{{ 'cart.empty' | t }}</p>
+  </div>
+  <div class="drawer__foot">
+    <div class="cart-summary" style="align-items:stretch;margin:0 0 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span>{{ 'cart.subtotal' | t }}</span>
+        <strong data-drawer-total>Rs.0.00</strong>
+      </div>
+    </div>
+    <a href="{{ routes.cart_url }}" class="btn btn--outline btn--block" style="margin-bottom:10px">{{ 'general.cart' | t }}</a>
+    <form action="{{ routes.cart_url }}" method="post">
+      <button type="submit" name="checkout" class="btn btn--primary btn--block">{{ 'cart.checkout' | t }}</button>
+    </form>
+  </div>
+</aside>

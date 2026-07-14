@@ -1,0 +1,25 @@
+{%- comment -%} All collections {%- endcomment -%}
+<section class="section">
+  <div class="container">
+    <div class="collection-hero reveal"><span class="eyebrow">Shop</span><h1 class="mt-0">Collections</h1></div>
+    <div class="grid grid--3 stagger">
+      {%- for collection in collections -%}
+        <a class="card" href="{{ collection.url }}">
+          <span class="card__media">
+            {%- if collection.image or collection.products.first.featured_image -%}
+              {%- assign img = collection.image | default: collection.products.first.featured_image -%}
+              <img src="{{ img | image_url: width: 600 }}" alt="{{ collection.title | escape }}" loading="lazy">
+            {%- else -%}<span class="ph">{% render 'icon', name: 'phone', size: 46 %}</span>{%- endif -%}
+          </span>
+          <span class="card__body">
+            <span class="card__title">{{ collection.title }}</span>
+            <span style="color:#6a7280;font-size:.85rem">{{ collection.products_count }} products</span>
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Collections list", "settings": [] }
+{% endschema %}

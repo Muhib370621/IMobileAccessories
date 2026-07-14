@@ -1,0 +1,107 @@
+{%- comment -%} Product page {%- endcomment -%}
+{%- liquid
+  assign product = product
+  assign v = product.selected_or_first_available_variant
+  assign on_sale = false
+  if v.compare_at_price > v.price
+    assign on_sale = true
+  endif
+-%}
+<section class="section">
+  <div class="container">
+    <div class="pdp" data-gallery>
+      <div class="pdp__gallery">
+        <div class="pdp__main" data-gallery-main>
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.title | escape }}" width="900" height="900">
+          {%- else -%}
+            <div class="card__media"><span class="ph">{% render 'icon', name: 'phone', size: 90 %}</span></div>
+          {%- endif -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="pdp__thumbs">
+            {%- for image in product.images limit: 8 -%}
+              <button class="pdp__thumb{% if forloop.first %} is-active{% endif %}" data-thumb data-full="{{ image | image_url: width: 900 }}" type="button">
+                <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" loading="lazy">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="pdp__info reveal">
+        {%- if product.vendor != blank -%}<span class="eyebrow">{{ product.vendor }}</span>{%- endif -%}
+        <h1>{{ product.title }}</h1>
+        <div class="pdp__price">
+          <span data-price-now>{{ v.price | money }}</span>
+          {%- if on_sale -%}<span class="price__was">{{ v.compare_at_price | money }}</span>{%- endif -%}
+        </div>
+
+        <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
+          <script type="application/json" data-variants>
+            [{%- for var in product.variants -%}{"id":{{ var.id }},"price":{{ var.price }},"available":{{ var.available }},"options":{{ var.options | json }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+          </script>
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="pdp__opt">
+                <label>{{ option.name }}</label>
+                <select data-option name="options[{{ option.name | escape }}]">
+                  {%- for value in option.values -%}
+                    <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <input type="hidden" name="id" value="{{ v.id }}">
+
+          <div class="pdp__buy">
+            <div class="qty">
+              <button type="button" data-qty-dec aria-label="Decrease">−</button>
+              <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+              <button type="button" data-qty-inc aria-label="Increase">+</button>
+            </div>
+            <button type="submit" class="btn btn--primary" data-add data-label="Add to Cart" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+            {%- if settings.whatsapp_1 != blank -%}
+              <a class="btn btn--wa" target="_blank" rel="noopener" href="https://wa.me/{{ settings.whatsapp_1_intl }}?text={{ 'Assalam-o-Alaikum, mujhe ye product chahiye: ' | append: product.title | append: ' - ' | append: shop.url | append: product.url | url_encode }}">{% render 'icon', name: 'whatsapp', size: 18 %} Order on WhatsApp</a>
+            {%- endif -%}
+          </div>
+        </form>
+
+        {%- if product.description != blank -%}
+          <div class="pdp__desc rte">{{ product.description }}</div>
+        {%- endif -%}
+
+        <div class="pdp__trust">
+          <div>{% render 'icon', name: 'shield', size: 20 %} 100% Original</div>
+          <div>{% render 'icon', name: 'truck', size: 20 %} Fast Delivery</div>
+          <div>{% render 'icon', name: 'lock', size: 20 %} Secure Payment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- assign related = product.collections.first.products | default: collections.all.products -%}
+{%- if related.size > 1 -%}
+  <section class="section reveal">
+    <div class="container">
+      <div class="section-head"><h2>You May Also Like</h2></div>
+      <div class="grid grid--4 stagger">
+        {%- assign shown = 0 -%}
+        {%- for p in related -%}
+          {%- if p.id != product.id and shown < 4 -%}
+            {% render 'product-card', product: p %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{ "name": "Product", "settings": [] }
+{% endschema %}

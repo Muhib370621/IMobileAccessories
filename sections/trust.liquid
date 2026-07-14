@@ -1,0 +1,50 @@
+{%- comment -%} Trust features {%- endcomment -%}
+<section class="section reveal">
+  <div class="container">
+    <div class="section-head">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="trust stagger">
+      {%- for block in section.blocks -%}
+        <div class="trust__item" {{ block.shopify_attributes }}>
+          <span class="ic">{% render 'icon', name: block.settings.icon, size: 22 %}</span>
+          <b>{{ block.settings.title }}</b>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Trust Features",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Shop With Us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Genuine Products, Trusted Service" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "shield",
+          "options": [{"value":"shield","label":"Shield"},{"value":"truck","label":"Delivery"},{"value":"lock","label":"Secure"},{"value":"support","label":"Support"},{"value":"star","label":"Quality"}] },
+        { "type": "text", "id": "title", "label": "Title", "default": "100% Original" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Genuine, branded products only." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Features",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "shield", "title": "100% Original", "text": "Genuine, branded products only." } },
+        { "type": "item", "settings": { "icon": "truck", "title": "Fast Delivery", "text": "Across Karachi and all Pakistan." } },
+        { "type": "item", "settings": { "icon": "lock", "title": "Secure Payment", "text": "Safe checkout, every time." } },
+        { "type": "item", "settings": { "icon": "support", "title": "Friendly Support", "text": "Reach us on WhatsApp anytime." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

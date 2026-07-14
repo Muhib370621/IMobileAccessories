@@ -1,218 +1,40 @@
+{%- comment -%} Cart page {%- endcomment -%}
+<section class="section cart-page">
+  <div class="container" style="max-width:900px">
+    <h1>{{ 'cart.title' | t }}</h1>
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cartForm">
+        {%- for item in cart.items -%}
+          <div class="cart-row">
+            <a href="{{ item.url }}">
+              {%- if item.image -%}<img src="{{ item.image | image_url: width: 180 }}" alt="{{ item.title | escape }}">{%- endif -%}
+            </a>
+            <div>
+              <a href="{{ item.url }}" style="font-weight:600">{{ item.product.title }}</a>
+              {%- unless item.variant.title contains 'Default' -%}<div style="color:#6a7280;font-size:.88rem">{{ item.variant.title }}</div>{%- endunless -%}
+              <div class="price" style="margin-top:6px"><span class="price__now">{{ item.final_line_price | money }}</span></div>
+              <a href="{{ item.url_to_remove }}" style="color:#e11d48;font-size:.82rem">{{ 'cart.remove' | t }}</a>
+            </div>
+            <div class="qty">
+              <a class="btn" href="{{ item.url_to_change }}&quantity={{ item.quantity | minus: 1 }}" style="width:42px;height:48px;padding:0;background:#fff;color:var(--heading);border-radius:0">−</a>
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity" style="border-left:1px solid var(--muted);border-right:1px solid var(--muted)">
+              <a class="btn" href="{{ item.url_to_change }}&quantity={{ item.quantity | plus: 1 }}" style="width:42px;height:48px;padding:0;background:#fff;color:var(--heading);border-radius:0">+</a>
+            </div>
+          </div>
+        {%- endfor -%}
 
-
-{% capture cart_page_more_blocks_content %}
-  <div class="cart-page__more-blocks">
-    {%- content_for 'blocks' -%}
+        <div class="cart-summary">
+          <button type="submit" name="update" class="btn btn--outline">Update cart</button>
+          <div class="cart-total">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</div>
+          <button type="submit" name="checkout" class="btn btn--primary" style="min-width:220px">{{ 'cart.checkout' | t }}</button>
+        </div>
+      </form>
+    {%- else -%}
+      <p class="empty">{{ 'cart.empty' | t }}</p>
+      <div class="text-center"><a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a></div>
+    {%- endif -%}
   </div>
-{% endcapture %}
-
-{% capture cart_items_children %}
-  <template id="empty-cart-template">
-    <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-    <div
-      class="section color-{{ section.settings.color_scheme }} section--{{ section.settings.section_width }}"
-    >
-      <div
-        class="cart-page spacing-style{% if cart.empty? %} cart-page--empty{% endif %}"
-        style="{% render 'spacing-style', settings: section.settings %}"
-      >
-        <div class="cart-page__title">
-          {%- content_for 'block', id: 'cart-page-title', type: '_cart-title', force_empty: true %}
-        </div>
-        <div class="cart-page__items">
-          {%- content_for 'block', id: 'cart-page-items', type: '_cart-products', force_empty: true %}
-        </div>
-        {{ cart_page_more_blocks_content }}
-      </div>
-    </div>
-  </template>
-
-  {% # theme-check-disable UniqueStaticBlockId %}
-  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-  <div
-    class="section color-{{ section.settings.color_scheme }} section--{{ section.settings.section_width }}"
-  >
-    <div
-      class="cart-page spacing-style{% if cart.empty? %} cart-page--empty{% endif %}"
-      style="{% render 'spacing-style', settings: section.settings %}"
-    >
-      <div class="cart-page__title">
-        {%- content_for 'block', id: 'cart-page-title', type: '_cart-title' %}
-      </div>
-
-      <div class="cart-page__items">
-        {%- content_for 'block', id: 'cart-page-items', type: '_cart-products' %}
-      </div>
-
-      {%- unless cart.empty? -%}
-        <div class="cart-page__summary">
-          {%- content_for 'block', id: 'cart-page-summary', type: '_cart-summary' -%}
-        </div>
-      {%- endunless -%}
-
-      {{ cart_page_more_blocks_content }}
-    </div>
-  </div>
-  {% # theme-check-enable UniqueStaticBlockId %}
-{% endcapture %}
-{% render 'cart-items-component', children: cart_items_children, section_id: section.id %}
-
-{% stylesheet %}
-  .cart-page {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0 var(--padding-5xl);
-  }
-
-  .cart-page--empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cart-page--empty .cart-page__title,
-  .cart-page--empty .cart-page__more-blocks {
-    margin-top: var(--margin-6xl);
-  }
-
-  .cart-page__more-blocks {
-    width: 100%;
-  }
-
-  .cart-page--empty .cart-title {
-    text-align: center;
-  }
-
-  .cart-page__main {
-    grid-column: 1;
-  }
-
-  .cart-page__summary {
-    padding-top: var(--padding-xl);
-  }
-
-  .cart-page__title + .cart-page__items {
-    margin-block-start: var(--margin-lg);
-  }
-
-  @media screen and (min-width: 750px) {
-    .cart-page {
-      grid-template-columns: 1fr min(50vw, var(--sidebar-width));
-      grid-template-rows: min-content min-content 1fr;
-    }
-
-    .cart-page__summary {
-      display: grid;
-      height: 100%;
-      grid-column: 2;
-      grid-row: 1 / -1;
-      align-self: stretch;
-      grid-template-rows: subgrid;
-      padding-top: 0;
-
-      /* needed to support blurred effect from hero section */
-      position: relative;
-    }
-
-    .section--page-width .cart-page:has(.cart-summary--extend) {
-      grid-column: 2 / 4;
-      grid-template-columns: 1fr minmax(
-          var(--sidebar-width),
-          calc((100vw - var(--page-width)) / 2 + var(--sidebar-width))
-        );
-    }
-  }
-
-  @media screen and (min-width: 1400px) {
-    .cart-page {
-      grid-template-columns: 1fr var(--sidebar-width);
-    }
-  }
-{% endstylesheet %}
-
+</section>
 {% schema %}
-{
-  "name": "t:names.cart",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "blocks": [
-    {
-      "type": "@theme"
-    },
-    {
-      "type": "@app"
-    },
-    {
-      "type": "text"
-    },
-    {
-      "type": "icon"
-    },
-    {
-      "type": "image"
-    },
-    {
-      "type": "button"
-    },
-    {
-      "type": "video"
-    },
-    {
-      "type": "group"
-    },
-    {
-      "type": "spacer"
-    }
-  ],
-  "settings": [
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    }
-  ]
-}
+{ "name": "Cart", "settings": [] }
 {% endschema %}
