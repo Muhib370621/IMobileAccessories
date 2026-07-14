@@ -42,44 +42,23 @@
   "
   {{ block.shopify_attributes }}
 >
-  {% liquid
-    assign logo_width = settings.logo_height | times: settings.logo.aspect_ratio | ceil
-    assign logo_width_mobile = settings.logo_height_mobile | times: settings.logo.aspect_ratio | ceil
-    assign inverse_logo_width = settings.logo_height | times: inverse_logo.aspect_ratio | ceil
-    assign inverse_logo_width_mobile = settings.logo_height_mobile | times: inverse_logo.aspect_ratio | ceil
-    assign logo_style = '--header-logo-image-width: ' | append: logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
-    assign inverse_logo_style = '--header-logo-image-width: ' | append: inverse_logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: inverse_logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
-  %}
-
-  <span
-    class="header-logo__image-container header-logo__image-container--original"
-    data-testid="header-logo"
-  >
-    {% render 'image',
-      image: settings.logo,
-      class: 'header-logo__image',
-      height: settings.logo_height,
-      alt_text_fallback: alt_text_fallback,
-      text_fallback: shop.name,
-      style: logo_style
-    %}
+  {%- comment -%} Custom iMobile Accessories monogram logo (iC, red & black) {%- endcomment -%}
+  <span class="im-logo" data-testid="header-logo" aria-label="{{ shop.name | escape }}">
+    <svg class="im-logo__badge" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="imlg-{{ block.id }}" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#1a1a1d"/>
+          <stop offset="0.55" stop-color="#0d0d0f"/>
+          <stop offset="1" stop-color="#3a0510"/>
+        </linearGradient>
+      </defs>
+      <rect x="1.5" y="1.5" width="45" height="45" rx="11" fill="url(#imlg-{{ block.id }})" stroke="#d90429" stroke-width="2"/>
+      <circle cx="15.5" cy="14.5" r="3.1" fill="#d90429"/>
+      <rect x="12.8" y="20.5" width="5.4" height="15.5" rx="2.6" fill="#ffffff"/>
+      <path d="M37.4 18.2a9.4 9.4 0 1 0 0 11.6" fill="none" stroke="#d90429" stroke-width="5.2" stroke-linecap="round"/>
+    </svg>
+    <span class="im-logo__word">iMobile<b>Accessories</b></span>
   </span>
-
-  {% if use_inverse_logo %}
-    <span
-      class="header-logo__image-container header-logo__image-container--inverse"
-      data-testid="header-logo-inverse"
-    >
-      {% render 'image',
-        image: inverse_logo,
-        class: 'header-logo__image',
-        height: settings.logo_height,
-        alt_text_fallback: alt_text_fallback,
-        text_fallback: shop.name,
-        style: inverse_logo_style
-      %}
-    </span>
-  {% endif %}
 </a>
 
 {% stylesheet %}
@@ -120,23 +99,53 @@
     }
   }
 
-  .header-logo__image {
-    object-fit: contain;
-    height: var(--header-logo-image-height-mobile);
-    width: var(--header-logo-image-width-mobile);
-
-    @media screen and (min-width: 750px) {
-      height: var(--header-logo-image-height);
-      width: var(--header-logo-image-width);
-    }
+  .im-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .header-logo:has(.header-logo__image-container--inverse) .header-logo__image-container--original {
-    display: var(--header-logo-display, block);
+  .im-logo:hover {
+    transform: translateY(-1px);
   }
 
-  .header-logo__image-container--inverse {
-    display: var(--header-logo-inverse-display, none);
+  .im-logo__badge {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 4px 10px rgba(217, 4, 41, 0.35));
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .im-logo:hover .im-logo__badge {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  .im-logo__word {
+    font-family: var(--font-heading--family, sans-serif);
+    font-weight: 700;
+    font-size: 1.02rem;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+    color: var(--color-foreground);
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+  }
+
+  .im-logo__word b {
+    color: #d90429;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 480px) {
+    .im-logo__badge { width: 34px; height: 34px; }
+    .im-logo__word { font-size: 0.9rem; }
+    .im-logo__word b { font-size: 0.62rem; }
   }
 {% endstylesheet %}
 
